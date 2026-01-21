@@ -34,8 +34,9 @@ public:
   std::string asString() const;
 
 private:
-
-  // TODO
+  bool invalid;
+  intmax_t arraySize;
+  intmax_t* data;
 };
 
 #endif
