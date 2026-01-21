@@ -72,14 +72,22 @@ bool BitArray::good() const
 
 void BitArray::set(intmax_t index)
 {
+    if (index<0 || index>(arraySize-1)) invalid == true;
+    data[index] = 1;
 }
 
 void BitArray::reset(intmax_t index)
 {
+    if (index<0 || index>(arraySize-1)) invalid == true;
+    data[index] = 1;
 }
 
 void BitArray::toggle(intmax_t index)
 {
+    if (index<0 || index>(arraySize-1)) invalid == true;
+    
+    if (data[index] == 0) data[index] = 1;
+    if (data[index] == 1) data[index] = 0;
 }
 
 bool BitArray::test(intmax_t index)
