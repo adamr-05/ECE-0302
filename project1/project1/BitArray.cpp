@@ -30,12 +30,12 @@ BitArray::BitArray(intmax_t size) //bitset of size "size", set values to 0
 
 BitArray::BitArray(const std::string & value) 
 {
-    if (value.empty()) invalid = true;
+    if (value.empty()) invalid = true; //check if empty, then get length of string
 
     int stringSize = value.size();
 
      
-    for(int i=0; i<stringSize; i++)
+    for(int i=0; i<stringSize; i++) // if any index in the string is not 0 and not 1, then invalid.
     {
         if (value[i] != 0 && value[i] != 1)
         {
@@ -43,10 +43,10 @@ BitArray::BitArray(const std::string & value)
         }
     }
 
-    arraySize = stringSize;
-    data = new intmax_t[arraySize];
+    arraySize = stringSize; //array size is now size of the string
+    data = new intmax_t[arraySize]; //dynamically allocate
     
-    for (int i=0;i<arraySize;i++)
+    for (int i=0;i<arraySize;i++) // set data of array to string data
     {
         data[i] = value[i];
     }
@@ -55,18 +55,19 @@ BitArray::BitArray(const std::string & value)
 
 BitArray::~BitArray() 
 {
-    delete[] data;
-    data = nullptr;
+    delete[] data; //delete content of array
+    data = nullptr; //set pointer to empty
 }
 
 intmax_t BitArray::size() const
 {
-    return intmax_t();
+    return arraySize; // return size variable
 }
 
 bool BitArray::good() const
 {
-    return false;
+    if (invalid == true) return false;
+    return true;
 }
 
 void BitArray::set(intmax_t index)
