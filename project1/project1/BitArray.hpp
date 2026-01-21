@@ -8,16 +8,16 @@
 class BitArray : public Bitset{
 public:
 
-  BitArray();
+  BitArray(); //default constructor
 
-  BitArray(intmax_t size);
+  BitArray(intmax_t size); // parameterized constructor w/ integer
 
-  BitArray(const std::string & value);
+  BitArray(const std::string & value); // parameterized constructor w/ string.  value passed as const reference, cannot be modified and prevents copying large data by value
 
-  ~BitArray();
+  ~BitArray(); //destructor
 
-  BitArray(const BitArray & ) = delete;
-  BitArray & operator=(const BitArray &) = delete;
+  BitArray(const BitArray & ) = delete;               // delete copy constructor and copy assignment operator,
+  BitArray & operator=(const BitArray &) = delete;    // as we are not using them according to problem specs.
 
   intmax_t size() const;
 

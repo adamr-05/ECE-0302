@@ -6,12 +6,13 @@
 class Bitset{
   public:
 
+    // basic destructor
     virtual ~Bitset(){};
     
-    // TODO COMMENT
+    // size member function that returns an "intmax_t", or any value of integers in your implementation
     virtual intmax_t size() const = 0;
     
-    // TODO COMMENT
+    // member function that checks validity of bitset, either valid or invalid, true/false
     virtual bool good() const = 0;
     
     // TODO COMMENT
