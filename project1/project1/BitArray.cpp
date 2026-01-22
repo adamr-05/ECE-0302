@@ -92,12 +92,24 @@ void BitArray::toggle(intmax_t index)
 
 bool BitArray::test(intmax_t index)
 {
+    if (index<0 || index>(arraySize-1))
+    {
+        invalid == true;
+        return false;
+    }
+
+    if (data[index] == 1) return true;
     return false;
 }
 
 std::string BitArray::asString() const
 {
-    return std::string();
+    std::string stringData;
+    for (int i=0; i<arraySize; i++)
+    {
+        stringData += std::to_string(data[i]);
+    }
+    return stringData;
 }
 
 // TODO: other methods
