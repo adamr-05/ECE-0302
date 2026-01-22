@@ -14,12 +14,15 @@ BitArray::BitArray() //bitset of size 8, set values to 0
 
 BitArray::BitArray(intmax_t size) //bitset of size "size", set values to 0
 {
-    if (size < 0)
+    if (size <= 0)
     {
         invalid = true;
+        arraySize = 0;
+        data = nullptr;
+        return;
     }
-    else invalid = false;
-    
+
+    invalid = false;
     arraySize = size;
     data = new intmax_t[arraySize];
     for (intmax_t i = 0; i < arraySize; i++)
@@ -30,25 +33,28 @@ BitArray::BitArray(intmax_t size) //bitset of size "size", set values to 0
 
 BitArray::BitArray(const std::string & value) 
 {
-    if (value.empty()) invalid = true; //check if empty, then get length of string
-
-    int stringSize = value.size();
-
-     
-    for(int i=0; i<stringSize; i++) // if any index in the string is not 0 and not 1, then invalid.
+    if (value.empty())
     {
-        if (value[i] != 0 && value[i] != 1)
-        {
-            invalid = true;
-        }
+        invalid = true;
+        arraySize = 0;
+        data = nullptr;
+        return;
     }
 
-    arraySize = stringSize; //array size is now size of the string
+
+    arraySize = value.size(); //array size is now size of the string
     data = new intmax_t[arraySize]; //dynamically allocate
-    
+    invalid = false;
+
     for (int i=0;i<arraySize;i++) // set data of array to string data
     {
-        data[i] = value[i];
+        if (value[i] != '0' && value[i] != '1')
+        {
+            invalid = true;
+            return;
+        }
+
+        data[arraySize -1 -i] = value[i] - '0';
     }
 
 }
@@ -72,19 +78,31 @@ bool BitArray::good() const
 
 void BitArray::set(intmax_t index)
 {
-    if (index<0 || index>(arraySize-1)) invalid == true;
+    if (index<0 || index>(arraySize-1))
+    {
+        invalid == true;
+        return;
+    }
     data[index] = 1;
 }
 
 void BitArray::reset(intmax_t index)
 {
-    if (index<0 || index>(arraySize-1)) invalid == true;
-    data[index] = 1;
+    if (index<0 || index>(arraySize-1))
+    {
+        invalid == true;
+        return;
+    }
+    data[index] = 0;
 }
 
 void BitArray::toggle(intmax_t index)
 {
-    if (index<0 || index>(arraySize-1)) invalid == true;
+    if (index<0 || index>(arraySize-1)) 
+    {
+        invalid == true;
+        return;
+    }
     
     if (data[index] == 0) data[index] = 1;
     if (data[index] == 1) data[index] = 0;
@@ -107,9 +125,8 @@ std::string BitArray::asString() const
     std::string stringData;
     for (int i=0; i<arraySize; i++)
     {
-        stringData += std::to_string(data[i]);
+        stringData += std::to_string(data[arraySize-1-i]);
     }
     return stringData;
 }
 
-// TODO: other methods
