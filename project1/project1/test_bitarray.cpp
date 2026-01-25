@@ -45,3 +45,69 @@ TEST_CASE( "Bitarray: Test set", "[bitarray]" ) {
 
 
 /* Your test cases here */
+
+TEST_CASE( "Bitarray: Test good", "[bitarray]")
+{
+    BitArray b;
+    REQUIRE(b.good());
+    b.set(9);
+    REQUIRE_FALSE(b.good());
+}
+
+TEST_CASE( "Bitarray: Test size", "[bitarray]")
+{
+    BitArray b;
+    REQUIRE(b.size() == 8);
+
+    BitArray b1(16);
+    REQUIRE(b1.size()==16);
+}
+
+TEST_CASE( "Bitarray: Test reset", "[bitarray]")
+{
+    std::string s("00000001");
+    BitArray b(s);
+    REQUIRE(b.test(0)==true);
+
+    b.reset(0);
+    REQUIRE(b.test(0)==false);
+
+    b.reset(-1);
+    REQUIRE_FALSE(b.good());
+}
+
+TEST_CASE( "Bitarray: Test toggle", "[bitarray]")
+{
+    std::string s("10000000");
+    BitArray b(s);
+    REQUIRE(b.test(7)==true);
+
+    b.toggle(7);
+    REQUIRE(b.test(7)==false);
+
+    b.toggle(7);
+    REQUIRE(b.test(7)==true);
+
+    b.toggle(8);
+    REQUIRE_FALSE(b.good());
+}
+
+TEST_CASE( "Bitarray: Test test", "[bitarray]")
+{
+    BitArray b;
+    REQUIRE(b.test(0)==false);
+    b.toggle(0);
+    REQUIRE(b.test(0)==true);
+}
+
+TEST_CASE( "Bitarray: Test asString", "[bitarray]")
+{
+    BitArray b;
+    b.set(0);
+    b.set(1);
+    REQUIRE(b.asString()=="00000011");
+
+    std::string s("1000100110010");
+    BitArray b1(s);
+    REQUIRE(b1.asString()==s);
+}

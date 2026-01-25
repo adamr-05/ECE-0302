@@ -104,8 +104,7 @@ void BitArray::toggle(intmax_t index)
         return;
     }
     
-    if (data[index] == 0) data[index] = 1;
-    if (data[index] == 1) data[index] = 0;
+    data[index] ^= 1; // XOR on a bit flips the bit
 }
 
 bool BitArray::test(intmax_t index)
