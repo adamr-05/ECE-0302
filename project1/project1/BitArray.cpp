@@ -54,7 +54,7 @@ BitArray::BitArray(const std::string & value)
             return;
         }
 
-        data[arraySize -1 -i] = value[i] - '0';
+        data[arraySize -1 -i] = value[i] - '0'; // convert char to int by subracting '0' from ascii value
     }
 
 }
@@ -80,7 +80,7 @@ void BitArray::set(intmax_t index)
 {
     if (index<0 || index>(arraySize-1))
     {
-        invalid == true;
+        invalid = true;
         return;
     }
     data[index] = 1;
@@ -90,7 +90,7 @@ void BitArray::reset(intmax_t index)
 {
     if (index<0 || index>(arraySize-1))
     {
-        invalid == true;
+        invalid = true;
         return;
     }
     data[index] = 0;
@@ -100,7 +100,7 @@ void BitArray::toggle(intmax_t index)
 {
     if (index<0 || index>(arraySize-1)) 
     {
-        invalid == true;
+        invalid = true;
         return;
     }
     
@@ -112,7 +112,7 @@ bool BitArray::test(intmax_t index)
 {
     if (index<0 || index>(arraySize-1))
     {
-        invalid == true;
+        invalid = true;
         return false;
     }
 
