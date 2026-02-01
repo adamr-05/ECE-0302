@@ -28,8 +28,8 @@ public:
   static const std::size_t maxsize = 100;
 
 private:
-  T items[maxsize];
-  std::size_t count;
+  T items[maxsize]; // static size array of 100 elements (max size above ^^)
+  std::size_t count; // counter to track current number items
 
 };
 
