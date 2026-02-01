@@ -31,8 +31,8 @@ bool LimitedSizeBag<T>::remove(const T& item)
 template<typename T>
 bool LimitedSizeBag<T>::isEmpty() const
 {
-  if (count == 0) return false;
-  return true;
+  if (count == 0) return true;
+  return false;
 }
 
 template<typename T>
