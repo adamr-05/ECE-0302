@@ -28,6 +28,8 @@ public:
   static const std::size_t maxsize = 100;
 
 private:
+  T items[maxsize];
+  std::size_t count;
 
 };
 
