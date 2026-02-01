@@ -37,6 +37,8 @@ public:
   bool contains(const T& item) const;
 
 private:
+  T* items;
+  std::size_t count;
 
 };
 
