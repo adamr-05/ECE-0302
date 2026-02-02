@@ -7,15 +7,11 @@ DynamicBag<T>::DynamicBag() : items(nullptr), count(0) {}
 template<typename T>
 DynamicBag<T>::DynamicBag(const DynamicBag<T>& x) : count(x.count)
 {
-  if (count == 0)
-  {
+  if (count == 0) {
     items = nullptr;
-  }
-  else
-  {
+  } else {
     items = new T[count];
-    for (std::size_t i = 0; i < count; i++);
-    {
+    for (std::size_t i = 0; i < count; i++) {
       items[i] = x.items[i];
     }
   }
@@ -74,7 +70,7 @@ bool DynamicBag<T>::remove(const T& item)
     }
   }
 
-  if (index == count) return false;     //if item not found (loops through all numbers and doesn't find) return false
+  if (i == count) return false;     //if item not found (loops through all numbers and doesn't find) return false
 
   if (count == 1) // if item to remove is only item in array, clear array
   {
@@ -86,11 +82,12 @@ bool DynamicBag<T>::remove(const T& item)
 
   T* newItems = new T[count - 1]; // allocate new array with updated size
 
-  for (std::size_t i = 0, k = 0; i < count; i++)
+  std::size_t k = 0;
+  for (std::size_t n = 0; n < count; n++)
   {
-    if (i != j)       //copy items to new array, skip one of index j (removed item)
+    if (n != i)       //copy items to new array, skip one of index j (removed item)
     {
-      newItems[k] = items[i];
+      newItems[k] = items[n];
       k++;
     }
   }

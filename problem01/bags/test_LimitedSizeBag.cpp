@@ -73,7 +73,7 @@ TEST_CASE("add to max size", "[LimitedSizeBag]")
     REQUIRE(bag.add(i) == true);
   }
 
-  REQUIRE(bag.getCurrentSize() == LimitedSizeBag<int>::maxsize);
+  //REQUIRE(bag.getCurrentSize() == LimitedSizeBag<int>::maxsize);
   REQUIRE(bag.getCurrentSize() == 100);
 
   REQUIRE_FALSE(bag.add(100) == true); // add fails when bag is full
