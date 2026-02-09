@@ -1,21 +1,29 @@
 #include "ArrayList.hpp"
 
 template <typename T>
-ArrayList<T>::ArrayList()
+ArrayList<T>::ArrayList() : data(nullptr), length(0)
 {
-  // TODO
 }
 
 template <typename T>
 ArrayList<T>::~ArrayList() 
 {
-  // TODO
+  clear();
 }
 
 template <typename T>
 ArrayList<T>::ArrayList(const ArrayList &x) 
 {
-  // TODO
+  if (x.length > 0)
+  {
+    data = new T[x.length];
+    length = x.length;
+
+    for (std::size_t i = 0; i < length; i++)
+    {
+      data[i] = x.data[i];
+    }
+  }
 }
 
 template <typename T>
