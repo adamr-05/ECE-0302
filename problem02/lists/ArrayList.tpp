@@ -29,28 +29,27 @@ ArrayList<T>::ArrayList(const ArrayList &x)
 template <typename T>
 ArrayList<T> &ArrayList<T>::operator=(ArrayList x)
 {
-  // TODO (use copy swap idiom)
+  swap(x);
   return *this;
 }
 
 template <typename T>
 void ArrayList<T>::swap(ArrayList &x) 
 {
-  // TODO
+  std::swap(data, x.data);
+  std::swap(length, x.length);
 }
 
 template <typename T>
 bool ArrayList<T>::isEmpty() const noexcept
 {
-  // TODO
-  return false;
+  return length == 0;
 }
 
 template <typename T>
 std::size_t ArrayList<T>::getLength() const noexcept
 {
-  // TODO
-  return 0;
+  return length;
 }
 
 template <typename T>
