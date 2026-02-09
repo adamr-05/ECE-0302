@@ -125,18 +125,28 @@ void ArrayList<T>::remove(std::size_t position)
 template <typename T>
 void ArrayList<T>::clear() 
 {
-  // TODO
+  delete[] data;
+  data = nullptr;
+  length = 0;
 }
 
 template <typename T>
 T ArrayList<T>::getEntry(std::size_t position) const
 {
-  // TODO
-  return T();
+  if (position >= length)
+  {
+    throw std::out_of_range("getEntry position greater than array size!!!");
+  }
+  return data[position];
 }
 
 template <typename T>
 void ArrayList<T>::setEntry(std::size_t position, const T &newValue) 
 {
-  // TODO
+  if (position >= length)
+  {
+    throw std::out_of_range("setEntry position greater than array size!!!");
+  }
+
+  data[position] = newValue;
 }
