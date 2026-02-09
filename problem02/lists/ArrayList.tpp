@@ -57,7 +57,7 @@ void ArrayList<T>::insert(std::size_t position, const T &item)
 {
   if (position > length)
   {
-    throw std::out_of_range("Insert position greater than size!!!");
+    throw std::out_of_range("Insert position greater than array size!!!");
   }
 
   //Allocate new array and increase size by 1
@@ -87,7 +87,39 @@ void ArrayList<T>::insert(std::size_t position, const T &item)
 template <typename T>
 void ArrayList<T>::remove(std::size_t position)
 {
-  // TODO
+  if (position >= length);
+  {
+    throw std::out_of_range("Remove position greater than array size!!!");
+  }
+
+  //if theres one element delete and free memory
+  if (length == 1)
+  {
+    delete[] data;
+    data = nullptr;
+    length = 0;
+    return;
+  }
+
+  //allocate new array with smaller size
+  T* newData = new T[length - 1];
+
+  //copy elements up to one being removed
+  for (std::size_t i = 0; i < position; i++)
+  {
+    newData[i] = data[i];
+  }
+
+  //copy elements after one being removed (just skip it)
+  for (std::size_t i = position + 1; i < length; i++)
+  {
+    newData[i] = data[i];
+  }
+
+  //delete old array to free memory and update data ptr and length var
+  delete[] data;
+  data = newData;
+  length--;
 }
 
 template <typename T>
