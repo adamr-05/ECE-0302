@@ -55,7 +55,33 @@ std::size_t ArrayList<T>::getLength() const noexcept
 template <typename T>
 void ArrayList<T>::insert(std::size_t position, const T &item)
 {
-  // TODO
+  if (position > length)
+  {
+    throw std::out_of_range("Insert position greater than size!!!");
+  }
+
+  //Allocate new array and increase size by 1
+  T* newData = new T[length + 1];
+
+  //copy all elements before one to be inserted
+  for (std::size_t i = 0; i < position; i++)
+  {
+    newData[i] = data[i];
+  }
+
+  //insert the new item
+  newData[position] = item;
+
+  //copy the elements after Insertion
+  for (std::size_t i = position; i < length; i++)
+  {
+    newData[i+1] = data[i];
+  }
+
+  //delete old array and update length and ptr
+  delete[] data;
+  data = newData;
+  length++;
 }
 
 template <typename T>
