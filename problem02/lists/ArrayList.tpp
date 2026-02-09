@@ -113,7 +113,7 @@ void ArrayList<T>::remove(std::size_t position)
   //copy elements after one being removed (just skip it)
   for (std::size_t i = position + 1; i < length; i++)
   {
-    newData[i] = data[i];
+    newData[i - 1] = data[i];
   }
 
   //delete old array to free memory and update data ptr and length var
