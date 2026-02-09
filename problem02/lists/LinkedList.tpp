@@ -46,7 +46,7 @@ LinkedList<T> &LinkedList<T>::operator=(LinkedList<T> x)
 template <typename T>
 void LinkedList<T>::swap(LinkedList &x)
 {
-  std::swap(head. x.head);
+  std::swap(head, x.head);
   std::swap(length, x.length);
 }
 
@@ -67,7 +67,7 @@ void LinkedList<T>::insert(std::size_t position, const T &item)
 {
   if (position > length)
   {
-    throw std::out_of_range("Insert position out of range!")
+    throw std::out_of_range("Insert position out of range!");
   }
 
   Node <T>* newNode = new Node<T>(item);
@@ -97,7 +97,7 @@ void LinkedList<T>::remove(std::size_t position)
 {
   if (position >= length)
   {
-    throw std::out_of_range("Remove position out of range!")
+    throw std::out_of_range("Remove position out of range!");
   }
 
   Node<T>* toDelete = nullptr;
@@ -110,13 +110,13 @@ void LinkedList<T>::remove(std::size_t position)
   else
   {
     Node<T>* current = head;
-    for (std::size_t i = 0; i < position - 1; i++);
+    for (std::size_t i = 0; i < position - 1; i++)
     {
       current = current->getNext();
     }
 
     toDelete = current->getNext();
-    current->setNext(toDelte->getNext());
+    current->setNext(toDelete->getNext());
   }
 
   delete toDelete;
@@ -126,7 +126,7 @@ void LinkedList<T>::remove(std::size_t position)
 template <typename T>
 void LinkedList<T>::clear()
 {
-  while (heawd != nullptr)
+  while (head != nullptr)
   {
     Node<T>* temp = head;
     head = head->getNext();
@@ -140,7 +140,7 @@ T LinkedList<T>::getEntry(std::size_t position) const
 {
   if (position >= length)
   {
-    throw std::out_of_range("getEntry position out of range!")
+    throw std::out_of_range("getEntry position out of range!");
   }
 
   Node<T>* current = head;
@@ -157,7 +157,7 @@ void LinkedList<T>::setEntry(std::size_t position, const T &newValue)
 {
   if (position >= length)
   {
-    throw std::out_of_range("setEntry position out of range!")
+    throw std::out_of_range("setEntry position out of range!");
   }
 
   Node<T>* current = head;
