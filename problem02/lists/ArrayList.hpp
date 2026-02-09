@@ -35,7 +35,8 @@ class ArrayList: public AbstractList<T>
 
   private:
 
-    // TODO
+    T* data;
+    std::size_t length;
   
 };
 
