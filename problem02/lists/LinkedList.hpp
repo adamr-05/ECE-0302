@@ -36,7 +36,8 @@ class LinkedList: public AbstractList<T>
 
   private:
 
-    //TODO
+    node<T>* head;
+    std::size_t length;
   
 };
 
