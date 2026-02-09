@@ -87,7 +87,7 @@ void ArrayList<T>::insert(std::size_t position, const T &item)
 template <typename T>
 void ArrayList<T>::remove(std::size_t position)
 {
-  if (position >= length);
+  if (position >= length)
   {
     throw std::out_of_range("Remove position greater than array size!!!");
   }
