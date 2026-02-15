@@ -39,6 +39,8 @@ class Expression : public AbstractExpression {
 
 
         // TODO: members for stored expression
+        std::string prefixExpression;
+        std::string postfixExpression;
 
 };
 
