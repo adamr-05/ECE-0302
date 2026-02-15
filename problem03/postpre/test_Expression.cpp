@@ -75,3 +75,46 @@ TEST_CASE("Postpre: Test setFromPostfix simple", "[postpre]") {
 }
 
 /* TODO: Your test cases here */
+
+TEST_CASE("Postpre: Test setFromPostfix longer expression", "[postpre]") 
+{
+  Expression e;
+  std::string postfix = "ab+cd-*";
+  std::string test = "*+ab-cd";
+
+  REQUIRE_NOTHROW(e.setFromPostfix(postfix));
+  REQUIRE(e.getPostfix() == postfix);
+  REQUIRE(e.getPrefix() == test);
+}
+
+TEST_CASE("Postpre: Test setFromPostfix single operand", "[postpre]") 
+{
+  Expression e;
+  std::string postfix = "x";
+  std::string test = "x";
+
+  REQUIRE_NOTHROW(e.setFromPostfix(postfix));
+  REQUIRE(e.getPostfix() == postfix);
+  REQUIRE(e.getPrefix() == test);
+}
+
+TEST_CASE("Postpre: Test setFromPostfix invalid expressions", "[postpre]") 
+{
+  Expression e;
+  REQUIRE_THROWS_AS(e.setFromPostfix("+ab"), std::invalid_argument);
+  REQUIRE_THROWS_AS(e.setFromPostfix("a+b"), std::invalid_argument);
+  REQUIRE_THROWS_AS(e.setFromPostfix("a1+"), std::invalid_argument);
+}
+
+TEST_CASE("Postpre: Test setFromPostfix other operators", "[postpre]") 
+{
+  Expression e;
+
+  e.setFromPostfix("RR/");
+  REQUIRE(e.getPostfix() == "RR/");
+  REQUIRE(e.getPrefix() == "/RR");
+
+  e.setFromPostfix("Xi-");
+  REQUIRE(e.getPostfix() == "Xi-");
+  REQUIRE(e.getPrefix() == "-Xi");
+}
