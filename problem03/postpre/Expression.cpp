@@ -12,9 +12,16 @@ Expression::Expression()
 void Expression::setFromPrefix(const std::string &pre)
 {
   // TODO: check format
-
+  if (isPre(pre) == false)
+  {
+    throw std::invalid_argument("invalid prefix expression");
+  }
   // TODO: store prefix and postfix forms
 
+  prefixExpression = pre;
+  postfixExpression.clear();
+
+  prefixToPostfix(prefixExpression, postfixExpression);
 }
 
 void Expression::setFromPostfix(const std::string &post)
