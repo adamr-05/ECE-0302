@@ -27,14 +27,12 @@ void Expression::setFromPostfix(const std::string &post)
 
 std::string Expression::getPrefix() const
 {
-    // TODO
-    return "";
+    return prefixExpression;
 }
 
 std::string Expression::getPostfix() const
 {
-    // TODO
-    return "";
+    return postfixExpression;
 }
 
 /* Private member functions */
