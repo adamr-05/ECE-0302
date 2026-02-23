@@ -183,7 +183,8 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> & wordVector1,
 }
 
 bool FindPalindrome::add(const std::string & newWord)
-{
+{																//OVERCAME PROBLEM HERE
+	if (newWord.empty()) return false;					//here i used testing cases to verify add didn't work with empty string which was an easy fix
 	bool validWord = true;
 
 	// Check if word being added is unique
@@ -210,7 +211,7 @@ bool FindPalindrome::add(const std::string & newWord)
 	}
 
 	if (validWord)
-	{
+	{																//OVERCAME PROBLEM HERE
 		vectorOfStrings.push_back(newWord);				//here i used testing cases to figure out it wasnt updating when i used add function. need to call recursive from here
 		palindromes.clear();
 		std::vector<std::string> empty; //empty string to use to call
