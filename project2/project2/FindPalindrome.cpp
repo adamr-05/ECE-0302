@@ -147,8 +147,55 @@ bool FindPalindrome::add(const std::string & newWord)
 
 bool FindPalindrome::add(const std::vector<std::string> & wordVector)
 {
-	// TODO 
-	return false;
+
+	bool validVector = true;
+
+	//loop through vector
+	for (int i = 0; i < wordVector.size(); i++)
+	{
+		//check alpha chars of string
+		for (int j = 0; j < wordVector[i].size(); j++)
+		{
+			if (!isalpha(wordVector[i][j]))
+			{
+				validVector = false;
+			}
+		}
+
+		//check uniqueness against itself
+		for (int j = i+1; j < wordVector.size(); j++) // j is vector element after i, so compares i term to i+N terms, which should cover all terms
+		{
+			if (wordVector[i]==wordVector[j])
+			{
+				validVector = false;
+			}
+		}
+
+		//check uniqueness against existing vector
+		for (int j = 0; j < vectorOfStrings.size(); j++)
+		{
+			if (vectorOfStrings[j] == wordVector[i])
+			{
+				validVector = false;
+			}
+		}
+	}
+
+	//if invalid return false
+	if (validVector == false) return false;
+
+
+	// append all valid elements to existing vectorOfStrings
+	for (int i = 0; i < wordVector.size(); i++)
+	{
+		vectorOfStrings.push_back(wordVector[i]);
+	}
+
+	//clear data and recursively find palindromes
+	palindromes.clear();
+	std::vector<std::string> empty;
+	recursiveFindPalindromes(empty, vectorOfStrings);
+	return true;
 }
 
 std::vector< std::vector<std::string> > FindPalindrome::toVector() const
