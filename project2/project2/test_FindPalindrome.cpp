@@ -23,7 +23,7 @@ TEST_CASE("Test recursion", "[FindPalindrome]"){
 }
 
 /* Your test cases here */
-TEST_CASE("test add method", "[FindPalindrome]")
+TEST_CASE("test add method w/ string", "[FindPalindrome]")
 {
 	FindPalindrome b;
 	REQUIRE(b.add("TEST")==true);
@@ -32,5 +32,20 @@ TEST_CASE("test add method", "[FindPalindrome]")
 	REQUIRE(b.add("test15].")==false);
 	REQUIRE(b.add("testing")==true);
 }
+
+TEST_CASE("test add method w/ vector", "[FindPalindrome]")
+{
+	FindPalindrome b;
+	std::vector<std::string> v;
+	for (int i = 0; i < 5; i++)
+	{
+		std::string q = "word";
+		q = q + (char)('A' + i);	//trick where adding 0 to 'A' gives 'A', 1 to 'A' gives B, etc. cast to char and append to string
+		v.push_back(q);
+	}
+	REQUIRE(b.add(v)==true);
+	REQUIRE(b.number() == 0); // no palindromes
+}
+	
 
 
