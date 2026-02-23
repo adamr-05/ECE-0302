@@ -22,8 +22,44 @@ static void convertToLowerCase(std::string & value)
 void FindPalindrome::recursiveFindPalindromes(std::vector<std::string>
         candidateSentence, std::vector<std::string> remainingWords)
 {
-	// TODO implement this recursive function!
-	return;
+	//if no remaining words, check palindrome & return & update data
+	if (remainingWords.empty())
+	{
+		std::string palindromeTest;
+		for (int i = 0; i < candidateSentence.size(); i++)
+		{
+			for (int j = 0; j < candidateSentence[i].size(); j++)
+			{
+				palindromeTest.push_back(candidateSentence[i][j]);
+			}
+		}
+		if (isPalindrome(palindromeTest))
+		{
+			palindromes.push_back(candidateSentence);
+		}
+		return;
+	}
+	
+
+	for (int i = 0; i < remainingWords.size(); i++)
+	{
+		// add ith word to candidate
+		candidateSentence.push_back(remainingWords[i]);
+		
+		//change remainingwords var to remove ith word
+		std::vector<std::string> newRemainingWords;
+		for (int j = 0; j < remainingWords.size(); j++)
+		{
+			if (j != i)
+			newRemainingWords.push_back(remainingWords[j]);
+		}
+
+		//recursively call with new candidate and remainingwords
+		recursiveFindPalindromes(candidateSentence,newRemainingWords);
+
+		//remove tried element in pos. to try i+1th element instead on next call
+		candidateSentence.pop_back();
+	}
 }
 
 bool FindPalindrome::isPalindrome(std::string testString) const
