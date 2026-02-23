@@ -130,8 +130,56 @@ bool FindPalindrome::cutTest1(const std::vector<std::string> & wordVector)
 bool FindPalindrome::cutTest2(const std::vector<std::string> & wordVector1,
                               const std::vector<std::string> & wordVector2)
 {
-	// TODO 
-	return false;
+
+	//create 2 strings based on wordVector1 and wordVector2 data
+	std::string string1, string2;
+	for (int i = 0; i < wordVector1.size(); i++)
+	string1 += wordVector1[i];
+
+	for (int i = 0; i < wordVector2.size(); i++)
+	string2 += wordVector2[i];
+	
+	//convert them to lowercase to test
+	convertToLowerCase(string1);
+	convertToLowerCase(string2);
+
+	//find smaller and larger string
+	std::string smaller, larger;
+	if (string1.size() <= string2.size())
+	{
+		smaller = string1;
+		larger = string2;
+	}
+	else
+	{
+		smaller = string2;
+		larger = string1;
+	}
+
+	//create 2 more arrays to count frequency of each letter in each string
+	int smallerArrayLetterFreq[26] = {0};
+	int largerArrayLetterFreq[26] = {0};
+
+	//count frequency of each
+	for (int i = 0; i < smaller.size(); i++)
+	{
+		int letterIndex = smaller[i] - 'a'; // find ith element, then find its char and subtract a, giving ints 1 (a) through 26 (z).
+		smallerArrayLetterFreq[letterIndex]++; //increment letter count
+	}
+	for (int i = 0; i < larger.size(); i++)
+	{
+		int letterIndex = larger[i] - 'a'; // find ith element, then find its char and subtract a, giving ints 1 (a) through 26 (z).
+		largerArrayLetterFreq[letterIndex]++; //increment letter count
+	}
+
+	//now compare frequencies, frequency of all letters in larger should be greater than any in smaller
+	for (int i = 0; i < 26; i++)
+	{
+		if (smallerArrayLetterFreq[i] > largerArrayLetterFreq[i])
+		return false;
+	}
+	return true;
+
 }
 
 bool FindPalindrome::add(const std::string & newWord)
