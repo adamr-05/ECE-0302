@@ -188,9 +188,14 @@ bool FindPalindrome::add(const std::string & newWord)
 	bool validWord = true;
 
 	// Check if word being added is unique
+	std::string newWordLowercase = newWord;
+	convertToLowerCase(newWordLowercase);
 	for (int i = 0; i < vectorOfStrings.size(); i++)
 	{
-		if (vectorOfStrings[i] == newWord)
+		std::string existing = vectorOfStrings[i];
+		convertToLowerCase(existing);
+
+		if (existing == newWordLowercase)
 		{
 			validWord = false; //if not unique, not valid
 			break;
@@ -224,6 +229,20 @@ bool FindPalindrome::add(const std::vector<std::string> & wordVector)
 {
 
 	bool validVector = true;
+	std::vector<std::string> wordVectorLowercase = wordVector;
+	std::vector<std::string> vectorOfStringsLowercase = vectorOfStrings;
+
+
+	for (int i = 0; i < wordVectorLowercase.size(); i++) 
+	{
+		convertToLowerCase(wordVectorLowercase[i]);
+	}
+	for (int i = 0; i < vectorOfStringsLowercase.size(); i++) 
+	{
+		convertToLowerCase(vectorOfStringsLowercase[i]);
+	}
+		
+		
 
 	//loop through vector
 	for (int i = 0; i < wordVector.size(); i++)
@@ -240,7 +259,9 @@ bool FindPalindrome::add(const std::vector<std::string> & wordVector)
 		//check uniqueness against itself
 		for (int j = i+1; j < wordVector.size(); j++) // j is vector element after i, so compares i term to i+N terms, which should cover all terms
 		{
-			if (wordVector[i]==wordVector[j])
+			convertToLowerCase(wordVectorLowercase[i]);
+			convertToLowerCase(wordVectorLowercase[j]);
+			if (wordVectorLowercase[i] == wordVectorLowercase[j])
 			{
 				validVector = false;
 			}
@@ -249,7 +270,7 @@ bool FindPalindrome::add(const std::vector<std::string> & wordVector)
 		//check uniqueness against existing vector
 		for (int j = 0; j < vectorOfStrings.size(); j++)
 		{
-			if (vectorOfStrings[j] == wordVector[i])
+			if (vectorOfStringsLowercase[j] == wordVectorLowercase[i])
 			{
 				validVector = false;
 			}
