@@ -54,8 +54,7 @@ FindPalindrome::~FindPalindrome()
 
 int FindPalindrome::number() const
 {
-	// TODO 
-	return 0;
+	return palindromes.size();
 }
 
 void FindPalindrome::clear()
@@ -90,6 +89,7 @@ bool FindPalindrome::add(const std::string & newWord)
 		}
 	}
 
+	//check if word being added contains only alphabetic characters
 	if (validWord)
 	{
 		for (int i = 0; i < newWord.size(); i++)

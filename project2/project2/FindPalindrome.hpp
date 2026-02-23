@@ -10,6 +10,7 @@ private:
 	/* Define additional private members here as needed */ 
 
 	std::vector<std::string> vectorOfStrings;
+	std::vector<std::vector<std::string>> palindromes;
 	
 
 	/** Find and test all possible combinations of the words that have been
