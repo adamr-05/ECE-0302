@@ -8,6 +8,8 @@ class FindPalindrome{
 
 private:
 	/* Define additional private members here as needed */ 
+
+	std::vector<std::string> vectorOfStrings;
 	
 
 	/** Find and test all possible combinations of the words that have been
