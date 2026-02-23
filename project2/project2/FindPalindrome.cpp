@@ -137,8 +137,11 @@ bool FindPalindrome::add(const std::string & newWord)
 
 	if (validWord)
 	{
-		vectorOfStrings.push_back(newWord);
-	}
+		vectorOfStrings.push_back(newWord);				//here i used testing cases to figure out it wasnt updating when i used add function. need to call recursive from here
+		palindromes.clear();
+		std::vector<std::string> empty; //empty string to use to call
+		recursiveFindPalindromes(empty, vectorOfStrings);
+	}	
 	return validWord;
 }
 
