@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 #include "FindPalindrome.hpp"
+#include <cctype>
+
 
 //------------------- HELPER FUNCTIONS -----------------------------------------
 
