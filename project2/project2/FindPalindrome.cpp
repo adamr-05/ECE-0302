@@ -97,8 +97,34 @@ void FindPalindrome::clear()
 
 bool FindPalindrome::cutTest1(const std::vector<std::string> & wordVector)
 {
-	// TODO 
-	return false;
+	// if palindrome even, every character must appear even number of times
+	// if palindrome odd, character in center appears odd num of times, all others even num of times
+
+	std::string sentence;
+	for (int i = 0; i < wordVector.size(); i++)
+	{
+		sentence+= (wordVector[i]);
+	}
+	convertToLowerCase(sentence);
+
+	int letterArray[26] = {0};
+	for (int i = 0; i < sentence.size(); i++)
+	{
+		int letterIndex = sentence[i] - 'a'; // find ith element, then find its char and subtract a, giving ints 1 (a) through 26 (z).
+		letterArray[letterIndex]++; //increment letter count
+	}
+
+	int oddCount = 0;
+	for (int i = 0; i < 26; i ++)
+	{
+		if (letterArray[i] % 2 != 0) // 1 if odd, 0 if even
+		{
+			oddCount++; //increase number of odd nums
+		}
+	}
+	//if even length, number of odd chars cannot be ODD, only even, so we can use <= 1.
+
+	return oddCount <= 1; // if the number off odd numbers is greater than one, than it logically cannot be a palindrome whether even or odd
 }
 
 bool FindPalindrome::cutTest2(const std::vector<std::string> & wordVector1,
