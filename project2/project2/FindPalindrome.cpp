@@ -78,8 +78,35 @@ bool FindPalindrome::cutTest2(const std::vector<std::string> & wordVector1,
 
 bool FindPalindrome::add(const std::string & newWord)
 {
-	// TODO 
-	return false;
+	bool validWord = true;
+
+	// Check if word being added is unique
+	for (int i = 0; i < vectorOfStrings.size(); i++)
+	{
+		if (vectorOfStrings[i] == newWord)
+		{
+			validWord = false; //if not unique, not valid
+			break;
+		}
+	}
+
+	if (validWord)
+	{
+		for (int i = 0; i < newWord.size(); i++)
+		{
+			if (!isalpha(newWord[i]))
+			{
+				validWord = false;
+				break;
+			}
+		}
+	}
+
+	if (validWord)
+	{
+		vectorOfStrings.push_back(newWord);
+	}
+	return validWord;
 }
 
 bool FindPalindrome::add(const std::vector<std::string> & wordVector)
