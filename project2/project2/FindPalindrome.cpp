@@ -43,23 +43,20 @@ bool FindPalindrome::isPalindrome(std::string testString) const
 //------------------- PUBLIC CLASS METHODS -------------------------------------
 
 FindPalindrome::FindPalindrome()
-{
-	// TODO 
-}
+{}
 
 FindPalindrome::~FindPalindrome()
-{
-	// TODO 
-}
+{}
 
 int FindPalindrome::number() const
 {
-	return palindromes.size();
+	return palindromes.size(); // return SIZE of palindromes vector, which is number of palindromes found
 }
 
 void FindPalindrome::clear()
 {
-	// TODO 
+	vectorOfStrings.clear(); //clear palindromes list
+	palindromes.clear();	//clear data
 }
 
 bool FindPalindrome::cutTest1(const std::vector<std::string> & wordVector)
