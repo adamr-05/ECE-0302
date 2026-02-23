@@ -15,4 +15,14 @@ TEST_CASE("Test recursion", "[FindPalindrome]"){
 }
 
 /* Your test cases here */
+TEST_CASE("test add method", "[FindPalindrome]")
+{
+	FindPalindrome b;
+	REQUIRE(b.add("TEST")==true);
+	REQUIRE(b.add("TEST")==false);
+	REQUIRE(b.add("tESt")==true); //case sensitive adding works
+	REQUIRE(b.add("test15].")==false);
+	REQUIRE(b.add("testing")==true);
+}
+
 
