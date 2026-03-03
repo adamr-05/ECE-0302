@@ -92,12 +92,12 @@ void List<T>::insert(std::size_t position, const T& item)
     items = newItems;
   }
 
-  //shif items right of index
+  //shift items right of index
   for (std::size_t i = length; i > position; i--)
   {
     items[i] = items[i-1];
   }
-  
+
   //insert item at position
   items[position] = item;
   //update length
@@ -108,7 +108,21 @@ void List<T>::insert(std::size_t position, const T& item)
 template <typename T>
 void List<T>::remove(std::size_t position)
 {
-  //TODO
+  //check validity of position
+  if (position >= length)
+  {
+    throw std::out_of_range("remove index invalid, must be between 0 and length of list");
+  }
+
+  //shift items right of index left
+  for (std::size_t i = position; i < length - 1; i++)
+  {
+    items[i] = items[i+1];
+  }
+  //update length
+  length--;
+
+  //we just skipped over the item to be removed, so it will be destroyed
 }
 
 template <typename T>
