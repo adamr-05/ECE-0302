@@ -152,7 +152,14 @@ T List<T>::getEntry(std::size_t position) const
 template <typename T>
 void List<T>::setEntry(std::size_t position, const T& newValue)
 {
-  //TODO
+  //check validity of position
+  if (position >= length)
+  {
+    throw std::out_of_range("setEntry index invalid, must be between 0 and length of list");
+  }
+
+  //set item at position
+  items[position] = newValue;
 }
 
 template <typename T>
