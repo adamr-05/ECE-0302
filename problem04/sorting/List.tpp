@@ -23,7 +23,17 @@ List<T>::~List()
 template <typename T>
 List<T>::List(const List<T>& x)
 {
-  //TODO
+  //allocate new array
+  items = new T[x.capacity];
+  //set private members to match x
+  length = x.length;
+  capacity = x.capacity;
+
+  //copy data from old array to new array
+  for (std::size_t i = 0; i < length; i++)
+  {
+    items[i] = x.items[i];
+  }
 }
 
 template <typename T>
