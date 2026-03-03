@@ -3,7 +3,7 @@
 template <typename T>
 List<T>::List()
 {
-  items = new T[10] //set default capacity to 10
+  items = new T[10]; //set default capacity to 10
   length = 0;
   capacity = 10;
 }
@@ -69,7 +69,7 @@ template <typename T>
 void List<T>::insert(std::size_t position, const T& item)
 { 
   //check validity of position
-  if (position >= length)
+  if (position > length)
   {
     throw std::out_of_range("insert index invalid, must be between 0 and length of list");
   }
