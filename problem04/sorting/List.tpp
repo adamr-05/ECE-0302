@@ -46,7 +46,11 @@ List<T>& List<T>::operator=(List<T> x)
 template <typename T>
 void List<T>::swap(List& x) 
 {
-  //TODO
+  //swap data of THIS and x (use std::swap to do this for us)
+  //x is passed as reference, so it doesnt get destroyed
+  std::swap(items, x.items);
+  std::swap(length, x.length);
+  std::swap(capacity, x.capacity);
 }
 
 template <typename T>
@@ -63,8 +67,42 @@ std::size_t List<T>::getLength() const noexcept
 
 template <typename T>
 void List<T>::insert(std::size_t position, const T& item)
-{
-  //TODO
+{ 
+  //check validity of position
+  if (position >= length)
+  {
+    throw std::out_of_range("insert index invalid, must be between 0 and length of list");
+  }
+
+  //check if capacity needs increased
+  if (length >= capacity)
+  {
+    //double the current capacity
+    capacity *= 2;
+    //allocate new array
+    T* newItems = new T[capacity];
+    //copy data
+    for (std::size_t i = 0; i < length; i++)
+    {
+      newItems[i] = items[i];
+    }
+    //delete old arr
+    delete[] items;
+    //point items to new arr
+    items = newItems;
+  }
+
+  //shif items right of index
+  for (std::size_t i = length; i > position; i--)
+  {
+    items[i] = items[i-1];
+  }
+  
+  //insert item at position
+  items[position] = item;
+  //update length
+  length++;
+
 }
 
 template <typename T>
