@@ -39,8 +39,8 @@ List<T>::List(const List<T>& x)
 template <typename T>
 List<T>& List<T>::operator=(List<T> x)
 {
-  //TODO
-  return *this;
+  swap(x); //use swap method to swap data of THIS (current object) and x (copy of object passed in function)
+  return *this; //return current object (will have data of x, x will have data of THIS, x's old data will be destroyed (copy of x!!!)
 }
 
 template <typename T>
