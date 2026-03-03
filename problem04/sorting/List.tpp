@@ -128,14 +128,25 @@ void List<T>::remove(std::size_t position)
 template <typename T>
 void List<T>::clear()
 {
-  //TODO
+  //reset private members to default, and delete old array, allocate new empty array
+  length = 0;
+  capacity = 10;
+  delete[] items;
+  items = new T[capacity];
+
 }
 
 template <typename T>
 T List<T>::getEntry(std::size_t position) const
 {
-  //TODO
-  return T();
+  //check validity of position
+  if (position >= length)
+  {
+    throw std::out_of_range("getEntry index invalid, must be between 0 and length of list");
+  }
+
+  //return copy of item at position
+  return items[position];
 }
 
 template <typename T>
