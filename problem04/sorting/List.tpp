@@ -165,5 +165,38 @@ void List<T>::setEntry(std::size_t position, const T& newValue)
 template <typename T>
 void List<T>::moveEntry(std::size_t from, std::size_t to)
 {
-  //TODO
+  //check validity of positions
+  if (from >= length || to >= length)
+  {
+    throw std::out_of_range("moveEntry index invalid, must be between 0 and length of list");
+  }
+
+  //if from and to are the same, do nothing
+  if (from == to)
+  {
+    return;
+  }
+
+  //store item at from in temp variable
+  T temp = items[from];
+
+  //if from is less than to, shift items left
+  if (from < to)
+  {
+    for (std::size_t i = from; i < to; i++)
+    {
+      items[i] = items[i+1];
+    }
+  }
+  //if from is greater than to, shift items right
+  else
+  {
+    for (std::size_t i = from; i > to; i--)
+    {
+      items[i] = items[i-1];
+    }
+  }
+
+  //set item at to location to temp variable (item that was in from position!)
+  items[to] = temp;
 }
