@@ -3,13 +3,21 @@
 template <typename T>
 List<T>::List()
 {
-  //TODO
+  items = new T[10] //set default capacity to 10
+  length = 0;
+  capacity = 10;
 }
 
 template <typename T>
 List<T>::~List()
 {
-  //TODO
+  //must clear array data to prevent memory leak
+  delete[] items;
+
+  // These are kind of redundant as they will be destroyed when object goes out of scope
+  items = nullptr;
+  length = 0;
+  capacity = 0;
 }
 
 template <typename T>
