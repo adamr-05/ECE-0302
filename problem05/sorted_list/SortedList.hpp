@@ -37,10 +37,6 @@ public:
 
 private:
 
-  T* items;                 //holds array data
-  std::size_t length;       //length of current array
-  std::size_t capacity;     //memory allocated for aarray (increase memory allocated if length gets close to or exceeds capacity size)
-
 };
 
 #include "SortedList.tpp"
