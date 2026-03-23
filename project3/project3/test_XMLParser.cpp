@@ -173,6 +173,7 @@ TEST_CASE("XMLParser: Test XMLParser parse, contains and frequency", "[XMLParser
 }
 
 /* Your test cases here */
+
 /* Stack tests */
 TEST_CASE("Stack: Test empty stack", "[Stack]")
 {
@@ -253,10 +254,16 @@ TEST_CASE("XMLParser: Tokenize lone close bracket", "[XMLParser]")
 	REQUIRE_FALSE(p.tokenizeInputString(" >"));
 }
 
-TEST_CASE("XMLParser: Tokenize invalid end tag", "[XMLParser]")
+TEST_CASE("XMLParser: Tokenize invalid end tag with slash", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE_FALSE(p.tokenizeInputString("<test>stuff</test/>"));
+}
+
+TEST_CASE("XMLParser: Tokenize stray close bracket between tags", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE_FALSE(p.tokenizeInputString("<a>stuff>more</a>"));
 }
 
 /* Tokenizer success cases */
@@ -270,6 +277,41 @@ TEST_CASE("XMLParser: Tokenize empty tag", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE(p.tokenizeInputString("<br/>"));
+}
+
+TEST_CASE("XMLParser: Tokenize empty tag with attributes", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<img src=\"test.jpg\"/>"));
+	std::vector<TokenStruct> output = p.returnTokenizedInput();
+	REQUIRE(output.size() == 1);
+	REQUIRE(output[0].tokenType == EMPTY_TAG);
+	REQUIRE(output[0].tokenString == "img");
+}
+
+TEST_CASE("XMLParser: Tokenize start tag with attributes", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<Edgar src=\"edgar.jpg\" version=\"1.0\"></Edgar>"));
+	std::vector<TokenStruct> output = p.returnTokenizedInput();
+	REQUIRE(output[0].tokenType == START_TAG);
+	REQUIRE(output[0].tokenString == "Edgar");
+}
+
+TEST_CASE("XMLParser: Tokenize tag name with valid special chars", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<my-tag.name></my-tag.name>"));
+	std::vector<TokenStruct> output = p.returnTokenizedInput();
+	REQUIRE(output[0].tokenString == "my-tag.name");
+}
+
+TEST_CASE("XMLParser: Tokenize tag name starting with underscore", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<_private></_private>"));
+	std::vector<TokenStruct> output = p.returnTokenizedInput();
+	REQUIRE(output[0].tokenString == "_private");
 }
 
 TEST_CASE("XMLParser: Tokenize clears previous data", "[XMLParser]")
@@ -304,21 +346,49 @@ TEST_CASE("XMLParser: Parse reversed tags", "[XMLParser]")
 	REQUIRE_FALSE(p.parseTokenizedInput());
 }
 
-TEST_CASE("XMLParser: Parse content outside root", "[XMLParser]")
+TEST_CASE("XMLParser: Parse multiple root elements", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE(p.tokenizeInputString("<root></root><other></other>"));
 	REQUIRE_FALSE(p.parseTokenizedInput());
 }
 
-TEST_CASE("XMLParser: Parse content only", "[XMLParser]")
+TEST_CASE("XMLParser: Parse content only no tags", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE(p.tokenizeInputString("just some content"));
 	REQUIRE_FALSE(p.parseTokenizedInput());
 }
 
+TEST_CASE("XMLParser: Parse empty tag as root", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<br/>"));
+	REQUIRE_FALSE(p.parseTokenizedInput());
+}
+
+TEST_CASE("XMLParser: Parse declaration after root opens", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<root><?xml version=\"1.0\"?></root>"));
+	REQUIRE_FALSE(p.parseTokenizedInput());
+}
+
+TEST_CASE("XMLParser: Parse incorrectly nested tags", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<a><b></a></b>"));
+	REQUIRE_FALSE(p.parseTokenizedInput());
+}
+
 /* Parse success cases */
+TEST_CASE("XMLParser: Parse simple valid XML", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<test>stuff</test>"));
+	REQUIRE(p.parseTokenizedInput());
+}
+
 TEST_CASE("XMLParser: Parse nested elements", "[XMLParser]")
 {
 	XMLParser p;
@@ -326,7 +396,7 @@ TEST_CASE("XMLParser: Parse nested elements", "[XMLParser]")
 	REQUIRE(p.parseTokenizedInput());
 }
 
-TEST_CASE("XMLParser: Parse with declaration", "[XMLParser]")
+TEST_CASE("XMLParser: Parse with declaration before root", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE(p.tokenizeInputString("<?xml version=\"1.0\"?><root></root>"));
@@ -340,8 +410,22 @@ TEST_CASE("XMLParser: Parse with empty tag inside root", "[XMLParser]")
 	REQUIRE(p.parseTokenizedInput());
 }
 
+TEST_CASE("XMLParser: Parse content mixed with child elements", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<root>text<child>more</child>end</root>"));
+	REQUIRE(p.parseTokenizedInput());
+}
+
+TEST_CASE("XMLParser: Parse multiple declarations before root", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<?xml version=\"1.0\"?><?doctype stuff?><root></root>"));
+	REQUIRE(p.parseTokenizedInput());
+}
+
 /* Element name tests */
-TEST_CASE("XMLParser: Element name frequency", "[XMLParser]")
+TEST_CASE("XMLParser: Element name frequency with duplicates", "[XMLParser]")
 {
 	XMLParser p;
 	REQUIRE(p.tokenizeInputString("<root><item></item><item></item></root>"));
@@ -352,6 +436,26 @@ TEST_CASE("XMLParser: Element name frequency", "[XMLParser]")
 	REQUIRE(p.frequencyElementName("item") == 2);
 	REQUIRE_FALSE(p.containsElementName("missing"));
 	REQUIRE(p.frequencyElementName("missing") == 0);
+}
+
+TEST_CASE("XMLParser: Element name includes empty tags", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<root><br/><br/><br/></root>"));
+	REQUIRE(p.parseTokenizedInput());
+	REQUIRE(p.containsElementName("br"));
+	REQUIRE(p.frequencyElementName("br") == 3);
+}
+
+TEST_CASE("XMLParser: Element name case sensitive", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<Root><root></root></Root>"));
+	REQUIRE(p.parseTokenizedInput());
+	REQUIRE(p.containsElementName("Root"));
+	REQUIRE(p.containsElementName("root"));
+	REQUIRE(p.frequencyElementName("Root") == 1);
+	REQUIRE(p.frequencyElementName("root") == 1);
 }
 
 TEST_CASE("XMLParser: Element name throws before tokenize and parse", "[XMLParser]")
@@ -366,4 +470,14 @@ TEST_CASE("XMLParser: Element name throws after tokenize but before parse", "[XM
 	XMLParser p;
 	p.tokenizeInputString("<test></test>");
 	REQUIRE_THROWS_AS(p.containsElementName("test"), std::logic_error);
+}
+
+TEST_CASE("XMLParser: Clear resets state for element name queries", "[XMLParser]")
+{
+	XMLParser p;
+	REQUIRE(p.tokenizeInputString("<a></a>"));
+	REQUIRE(p.parseTokenizedInput());
+	REQUIRE(p.containsElementName("a"));
+	p.clear();
+	REQUIRE_THROWS_AS(p.containsElementName("a"), std::logic_error);
 }
