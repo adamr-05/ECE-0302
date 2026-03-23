@@ -7,10 +7,68 @@ Stack<ItemType>::Stack()
 {
 	//initialize headPtr as empty
 	headPtr = nullptr;
+	currentSize = 0;
 } 
 
 template<class ItemType>
 Stack<ItemType>::~Stack()
+{
+	clear();
+}
+
+template<class ItemType>
+bool Stack<ItemType>::isEmpty() const
+{	
+	//if headPtr is set to null, the list is empty
+	return headPtr == nullptr;
+}
+
+template<class ItemType>
+int Stack<ItemType>::size() const
+{
+	return currentSize;
+}
+
+template<class ItemType>
+bool Stack<ItemType>::push(const ItemType& newItem)
+{
+	Node<ItemType>* temp = new Node<ItemType>(newItem);
+
+	if (temp == nullptr) return false;
+
+	temp->setNext(headPtr);
+	headPtr = temp;
+	currentSize++;
+	return true;
+}
+
+template<class ItemType>
+ItemType Stack<ItemType>::peek() const
+{
+	if (headPtr == nullptr)
+	{
+		throw std::logic_error("Stack is empty");
+	}
+	return headPtr->getItem();
+}
+
+template<class ItemType>
+bool Stack<ItemType>::pop() 
+{
+	if (headPtr == nullptr)
+	{
+		return false;
+	}
+	Node<ItemType>* temp = headPtr;
+	headPtr = headPtr->getNext();
+
+	delete temp;
+	currentSize--;
+	return true;
+}
+
+template<class ItemType>
+void Stack<ItemType>::clear()
 {
 	//set next to first node
 	Node<ItemType>* current = headPtr;
@@ -22,47 +80,7 @@ Stack<ItemType>::~Stack()
 		delete current;								  //delete current node ptr
 		current = nextNode;							  //move currentptr to next
 	}
+	currentSize = 0;
 	headPtr = nullptr;
-}
-
-template<class ItemType>
-bool Stack<ItemType>::isEmpty() const
-{
-	// TODO
-	return true;
-}
-
-template<class ItemType>
-int Stack<ItemType>::size() const
-{
-	// TODO
-	return 0;
-}
-
-template<class ItemType>
-bool Stack<ItemType>::push(const ItemType& newItem)
-{
-	// TODO
-	return true;
-}
-
-template<class ItemType>
-ItemType Stack<ItemType>::peek() const
-{
-	// TODO
-	return ItemType();
-}
-
-template<class ItemType>
-bool Stack<ItemType>::pop() 
-{
-	// TODO
-	return false;
-}
-
-template<class ItemType>
-void Stack<ItemType>::clear()
-{
-	// TODO
 }
 
