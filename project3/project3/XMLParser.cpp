@@ -2,7 +2,8 @@
 
 XMLParser::XMLParser()
 {
-	// TODO
+	tokenized = false;
+	parsed = false;
 } 
 
 bool XMLParser::tokenizeInputString(const std::string &inputString)
@@ -147,18 +148,47 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 
 		tokenizedInputVector.push_back(token);
 	}
+	bool tokenized = true;
 	return true;
 }
 
 bool XMLParser::parseTokenizedInput()
 {
-	// TODO
-	return false;
+	if (tokenizedInputVector.empty()) return false;
+
+	for (size_t i = 0; i < tokenizedInputVector.size(); i++)
+	{
+		TokenStruct token = tokenizedInputVector[i];
+
+		if (token.tokenType == START_TAG)
+		{
+			parseStack.push(token.tokenString);
+			elementNameBag.add(token.tokenString);
+		}
+		else if (token.tokenType == END_TAG)
+		{
+			if (parseStack.isEmpty()) return false;
+			if (parseStack.peek() != token.tokenString) return false;
+			parseStack.pop();
+		}
+		else if (token.tokenType == EMPTY_TAG)
+		{
+			elementNameBag.add(token.tokenString);
+		}
+	}
+
+	// stack must be empty — all tags matched
+	if (!parseStack.isEmpty()) return false;
+
+	bool parsed = true;
+	return true;
 }
 
 void XMLParser::clear()
 {
-	// TODO
+	tokenizedInputVector.clear();
+	elementNameBag.clear();
+	parseStack.clear();
 }
 
 std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
@@ -168,13 +198,13 @@ std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
 
 bool XMLParser::containsElementName(const std::string &inputString) const
 {
-	// TODO
-	return false;
+	if (!tokenized || !parsed) throw std::logic_error("Input not tokenized and parsed");
+	return elementNameBag.contains(inputString);
 }
 
 int XMLParser::frequencyElementName(const std::string &inputString) const
 {
-	// TODO
-	return -1;
+	if (!tokenized || !parsed) throw std::logic_error("Input not tokenized and parsed");
+	return elementNameBag.getFrequencyOf(inputString);
 }
 
