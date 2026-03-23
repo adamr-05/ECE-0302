@@ -5,13 +5,24 @@
 template<class ItemType>
 Stack<ItemType>::Stack() 
 {
-	// TODO
+	//initialize headPtr as empty
+	headPtr = nullptr;
 } 
 
 template<class ItemType>
 Stack<ItemType>::~Stack()
 {
-	// TODO
+	//set next to first node
+	Node<ItemType>* current = headPtr;
+
+	//loop through all ptrs in sequence
+	while (current != nullptr)
+	{
+		Node<ItemType>* nextNode = current->getNext();//save next node ptr
+		delete current;								  //delete current node ptr
+		current = nextNode;							  //move currentptr to next
+	}
+	headPtr = nullptr;
 }
 
 template<class ItemType>
