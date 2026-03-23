@@ -148,7 +148,7 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 
 		tokenizedInputVector.push_back(token);
 	}
-	bool tokenized = true;
+	tokenized = true;
 	return true;
 }
 
@@ -156,31 +156,52 @@ bool XMLParser::parseTokenizedInput()
 {
 	if (tokenizedInputVector.empty()) return false;
 
+	int depth = 0;
+	bool rootClosed = false;
+
 	for (size_t i = 0; i < tokenizedInputVector.size(); i++)
 	{
 		TokenStruct token = tokenizedInputVector[i];
 
-		if (token.tokenType == START_TAG)
+		if (token.tokenType == DECLARATION)
 		{
+			// declarations only allowed before the root opens
+			if (depth > 0 || rootClosed) return false;
+		}
+		else if (token.tokenType == START_TAG)
+		{
+			// nothing allowed after root is closed
+			if (rootClosed) return false;
 			parseStack.push(token.tokenString);
 			elementNameBag.add(token.tokenString);
+			depth++;
 		}
 		else if (token.tokenType == END_TAG)
 		{
 			if (parseStack.isEmpty()) return false;
 			if (parseStack.peek() != token.tokenString) return false;
 			parseStack.pop();
+			depth--;
+			if (depth == 0) rootClosed = true;
 		}
 		else if (token.tokenType == EMPTY_TAG)
 		{
+			// can't be root-level if root already closed, 
+			// and can't be the only root (empty tag at depth 0 with nothing else)
+			if (rootClosed) return false;
+			if (depth == 0) return false;
 			elementNameBag.add(token.tokenString);
+		}
+		else if (token.tokenType == CONTENT)
+		{
+			// content must be inside an element
+			if (depth == 0) return false;
 		}
 	}
 
-	// stack must be empty — all tags matched
 	if (!parseStack.isEmpty()) return false;
 
-	bool parsed = true;
+	parsed = true;
 	return true;
 }
 
@@ -189,6 +210,8 @@ void XMLParser::clear()
 	tokenizedInputVector.clear();
 	elementNameBag.clear();
 	parseStack.clear();
+	tokenized = false;
+	parsed = false;
 }
 
 std::vector<TokenStruct> XMLParser::returnTokenizedInput() const
