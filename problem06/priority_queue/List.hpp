@@ -3,6 +3,7 @@
 
 #include "AbstractList.hpp"
 #include "ListIterator.hpp"
+#include "Node.hpp"
 
 template <typename T>
 class List: public AbstractList<T>
