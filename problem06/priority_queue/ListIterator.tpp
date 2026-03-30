@@ -2,16 +2,12 @@
 
 /* Change the second constructor argument to Node<T>* if using a linked implementation */
 template <typename T>
-inline ListIterator<T>::ListIterator(List<T> *listPtr, T *itemPtr)
-{
-    // TODO
-}
+inline ListIterator<T>::ListIterator(List<T>* listPtr, Node<T>* nodePtr)
+  : listPtr(listPtr), current(nodePtr) {}
 
 template <typename T>
-inline T ListIterator<T>::operator*() const
-{
-    // TODO
-    return T();
+inline T ListIterator<T>::operator*() const {
+  return current->getItem();
 }
 
 template <typename T>
