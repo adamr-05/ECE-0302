@@ -59,7 +59,32 @@ std::size_t List<T>::getLength() const noexcept
 template <typename T>
 void List<T>::insert(std::size_t position, const T& item)
 {
-  //TODO
+  //check validity of pos
+  if (position > length)
+  {
+    throw std::out_of_range("insert position larger than list size!")
+  }
+
+  //if position 0, no pointer to loop through, so create new ptr
+  if (position == 0)
+  {
+    //create new node, new ptr, with item
+    headptr = new Node<T>(item, headptr);
+  }
+  else
+  {
+    //create pointer to loop and find insert position
+    Node<T>* prev = headptr;
+    //loop through list using linked pointers (position amount of loops)
+    for (std::size_t i=0; i < position; i++)
+    {
+      prev = prev->getNext();
+    }
+
+    //create new node with proper position, then add it to end of linked list
+    prev->setNext(new Node<T>(item, prev->getNext()));
+  }
+  length++;
 }
 
 template <typename T>
