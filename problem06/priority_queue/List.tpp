@@ -1,15 +1,12 @@
 #include "List.hpp"
 
 template <typename T>
-List<T>::List()
-{
-  //TODO
-}
+List<T>::List() : head(nullptr), length(0) {}
 
 template <typename T>
 List<T>::~List()
 {
-  //TODO
+  clear();
 }
 
 template <typename T>
