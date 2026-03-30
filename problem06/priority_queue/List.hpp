@@ -40,6 +40,8 @@ public:
 private:
 
   //TODO
+  Node<T>* headptr;
+  std::size_t length;
   
 };
 
