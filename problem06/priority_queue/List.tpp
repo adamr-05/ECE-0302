@@ -29,14 +29,18 @@ List<T>::List(const List<T>& x) : headptr(nullptr), length(0)
 template <typename T>
 List<T>& List<T>::operator=(List<T> x)
 {
-  //TODO
+  //use swap method to copy
+  // (copy swap idiom) (maximize code reuse)
+  swap(x);
   return *this;
 }
 
 template <typename T>
 void List<T>::swap(List<T>& x) 
 {
-  //TODO
+  //use std::swap to swap head of x and head of this
+  std::swap(headptr, x.headptr);
+  std::swamp(length, x.length);
 }
 
 template <typename T>
