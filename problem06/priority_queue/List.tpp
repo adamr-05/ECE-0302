@@ -1,7 +1,7 @@
 #include "List.hpp"
 
 template <typename T>
-List<T>::List() : head(nullptr), length(0) {}
+List<T>::List() : headptr(nullptr), length(0) {}
 
 template <typename T>
 List<T>::~List()
@@ -10,9 +10,20 @@ List<T>::~List()
 }
 
 template <typename T>
-List<T>::List(const List<T>& x)
+List<T>::List(const List<T>& x) : headptr(nullptr), length(0)
 {
-  //TODO
+  //creat ptr curr to head of x
+  Node<T>* curr = x.headptr;
+  std::size_t pos = 0;
+
+  //loop through curr
+  while (curr != nullptr)
+  {
+    //insert new item, update curr pointer, and increase pos to insert)
+    insert(pos, curr->getItem());
+    curr = curr->getNext();
+    pos++;
+  }
 }
 
 template <typename T>
