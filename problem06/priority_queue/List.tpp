@@ -128,7 +128,14 @@ void List<T>::remove(std::size_t position)
 template <typename T>
 void List<T>::clear()
 {
-  //TODO
+  //keep deleting first node until headptr is empty (moving to next node)
+  while (headptr != nullptr)
+  {
+    Node<T>* temp = headptr;
+    headptr = headptr->getNext();
+    delete temp;
+  }
+  length = 0;
 }
 
 template <typename T>
