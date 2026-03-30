@@ -176,13 +176,11 @@ void List<T>::setEntry(std::size_t position, const T& newValue)
 template <typename T>
 ListIterator<T> List<T>::begin() 
 {
-  // TODO
-  return ListIterator<T>(nullptr, nullptr);
+  return ListIterator<T>(this, headptr);
 }
 
 template <typename T>
 ListIterator<T> List<T>::end() 
 {
-  // TODO
-  return ListIterator<T>(nullptr, nullptr);
+  return ListIterator<T>(this, nullptr);
 }
