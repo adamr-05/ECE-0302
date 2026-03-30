@@ -14,7 +14,7 @@ class ListIterator : public std::iterator<std::input_iterator_tag, T> {
     public:
         /* Change the second constructor argument to Node<T>* if using a linked implementation */
         // ListIterator(List<T>* listPtr, Node<T>* nodePtr);
-        ListIterator(List<T>* listPtr, T* itemPtr);
+        ListIterator(List<T>* listPtr, Node<T>* nodePtr);
 
         T operator*() const;
 
