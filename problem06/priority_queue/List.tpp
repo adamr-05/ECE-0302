@@ -141,14 +141,36 @@ void List<T>::clear()
 template <typename T>
 T List<T>::getEntry(std::size_t position) const
 {
-  //TODO
-  return T();
+  //check pos validity
+  if (position >= length) {
+    throw std::out_of_range("getEntry: position out of range");
+  }
+  //loop through nodes
+  Node<T>* curr = head;
+  for (std::size_t i = 0; i < position; i++) {
+    curr = curr->getNext();
+  }
+  //return item at node found at position
+  return curr->getItem();
 }
 
 template <typename T>
 void List<T>::setEntry(std::size_t position, const T& newValue)
 {
-  //TODO
+  //check validity of pos
+  if (position >= length) {
+    throw std::out_of_range("setEntry: position out of range");
+  }
+
+  //loop through nodes again (same as getEntry)
+  Node<T>* curr = head;
+  for (std::size_t i = 0; i < position; i++) {
+    curr = curr->getNext();
+  }
+  //almost identical to getEntry
+  //here instead of returning item,
+  //use setItem to change item at node to newValue
+  curr->setItem(newValue);
 }
 
 template <typename T>
