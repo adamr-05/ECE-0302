@@ -64,7 +64,7 @@ void SortedList<T, L>::remove(const T& item)
 
   std::size_t pos = 0;
 
-  or (T listItem : plist)
+  for (T listItem : plist)
   {
     if (item == listItem)
     {
@@ -73,7 +73,7 @@ void SortedList<T, L>::remove(const T& item)
     }
     pos++;
   }
-  throw std::invalid_argument("remove item not found")
+  throw std::invalid_argument("remove item not found");
 
 
 }
@@ -99,7 +99,14 @@ T SortedList<T, L>::getEntry(std::size_t position) const
 template <typename T, typename L>
 std::size_t SortedList<T, L>::getPosition(const T& newValue)
 {
-  // TODO
-  // Must use range-based for loop syntax
-  return 0;
+  std::size_t pos = 0;
+  for (T item : plist)
+  {
+    if (item == newValue)
+    {
+      return pos;
+    }
+    pos++;
+  }
+  throw std::invalid_argument("getPosition item not found");
 }

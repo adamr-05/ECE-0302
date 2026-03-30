@@ -2,8 +2,7 @@
 #define _LIST_ITERATOR_HPP_
 
 #include <iterator>
-
-#include "List.hpp"
+#include "Node.hpp"
 
 // forward declaration
 template <typename T> class List;

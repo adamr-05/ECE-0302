@@ -40,7 +40,7 @@ void List<T>::swap(List<T>& x)
 {
   //use std::swap to swap head of x and head of this
   std::swap(headptr, x.headptr);
-  std::swamp(length, x.length);
+  std::swap(length, x.length);
 }
 
 template <typename T>
@@ -62,7 +62,7 @@ void List<T>::insert(std::size_t position, const T& item)
   //check validity of pos
   if (position > length)
   {
-    throw std::out_of_range("insert position larger than list size!")
+    throw std::out_of_range("insert position larger than list size!");
   }
 
   //if position 0, no pointer to loop through, so create new ptr
@@ -76,7 +76,7 @@ void List<T>::insert(std::size_t position, const T& item)
     //create pointer to loop and find insert position
     Node<T>* prev = headptr;
     //loop through list using linked pointers (position amount of loops)
-    for (std::size_t i=0; i < position; i++)
+    for (std::size_t i=0; i < position - 1; i++)
     {
       prev = prev->getNext();
     }
@@ -103,7 +103,7 @@ void List<T>::remove(std::size_t position)
   if (position == 0)
   {
     toDelete = headptr;
-    headptr = head->getNext();
+    headptr = headptr->getNext();
   }
 
   //else loop through linked list as before
@@ -111,7 +111,7 @@ void List<T>::remove(std::size_t position)
   {
     Node<T>* prev = headptr;
     
-    for (std::size_t i=0; i < position; i++)
+    for (std::size_t i=0; i < position - 1; i++)
     {
       prev = prev->getNext();
     }
@@ -146,7 +146,7 @@ T List<T>::getEntry(std::size_t position) const
     throw std::out_of_range("getEntry: position out of range");
   }
   //loop through nodes
-  Node<T>* curr = head;
+  Node<T>* curr = headptr;
   for (std::size_t i = 0; i < position; i++) {
     curr = curr->getNext();
   }
@@ -163,7 +163,7 @@ void List<T>::setEntry(std::size_t position, const T& newValue)
   }
 
   //loop through nodes again (same as getEntry)
-  Node<T>* curr = head;
+  Node<T>* curr = headptr;
   for (std::size_t i = 0; i < position; i++) {
     curr = curr->getNext();
   }

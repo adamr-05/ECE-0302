@@ -1,9 +1,11 @@
 #ifndef _LIST_HPP_
 #define _LIST_HPP_
 
+
 #include "AbstractList.hpp"
-#include "ListIterator.hpp"
 #include "Node.hpp"
+#include "ListIterator.hpp"
+
 
 template <typename T>
 class List: public AbstractList<T>
@@ -47,5 +49,4 @@ private:
 };
 
 #include "List.tpp"
-
 #endif

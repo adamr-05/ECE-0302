@@ -122,3 +122,69 @@ TEST_CASE("Priority: Testing Priority Queue Add and isEmpty", "[priority queue]"
 
 /* Your test cases here */
 
+TEST_CASE("Priority Queue peek returns highest priority", "[priority queue]") {
+  PriorityQueueType pq;
+  pq.add(5);
+  pq.add(10);
+  pq.add(3);
+  REQUIRE(pq.peek() == 10);
+  pq.remove();
+  REQUIRE(pq.peek() == 5);
+  pq.remove();
+  REQUIRE(pq.peek() == 3);
+}
+
+TEST_CASE("Priority Queue remove until empty", "[priority queue]") {
+  PriorityQueueType pq;
+  pq.add(1);
+  pq.add(2);
+  pq.remove();
+  pq.remove();
+  REQUIRE(pq.isEmpty());
+}
+
+TEST_CASE("Priority Queue throws on empty peek and remove", "[priority queue]") {
+  PriorityQueueType pq;
+  REQUIRE_THROWS_AS(pq.peek(), std::out_of_range);
+  REQUIRE_THROWS_AS(pq.remove(), std::out_of_range);
+}
+
+TEST_CASE("Sorted List duplicate handling", "[sorted list]") {
+  SortedListType sl;
+  sl.insert(5);
+  sl.insert(5);
+  sl.insert(5);
+  REQUIRE(sl.getLength() == 3);
+  REQUIRE(sl.getEntry(0) == 5);
+  REQUIRE(sl.getEntry(1) == 5);
+  REQUIRE(sl.getEntry(2) == 5);
+
+  sl.remove(5);
+  REQUIRE(sl.getLength() == 2);
+}
+
+TEST_CASE("Sorted List throws on missing item", "[sorted list]") {
+  SortedListType sl;
+  sl.insert(1);
+  REQUIRE_THROWS_AS(sl.remove(99), std::invalid_argument);
+  REQUIRE_THROWS_AS(sl.getPosition(99), std::invalid_argument);
+}
+
+TEST_CASE("List throws on invalid positions", "[list]") {
+  List<int> lst;
+  REQUIRE_THROWS_AS(lst.remove(0), std::out_of_range);
+  REQUIRE_THROWS_AS(lst.getEntry(0), std::out_of_range);
+  REQUIRE_THROWS_AS(lst.setEntry(0, 5), std::out_of_range);
+  REQUIRE_THROWS_AS(lst.insert(5, 10), std::out_of_range);
+}
+
+TEST_CASE("Priority Queue with negative values", "[priority queue]") {
+  PriorityQueueType pq;
+  pq.add(-3);
+  pq.add(0);
+  pq.add(-10);
+  pq.add(7);
+  REQUIRE(pq.peek() == 7);
+  pq.remove();
+  REQUIRE(pq.peek() == 0);
+}
