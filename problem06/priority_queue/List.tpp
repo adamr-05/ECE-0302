@@ -90,7 +90,39 @@ void List<T>::insert(std::size_t position, const T& item)
 template <typename T>
 void List<T>::remove(std::size_t position)
 {
-  //TODO
+  //check pos validity
+  if (position >= length)
+  {
+    throw std::out_of_range("remove position does not contain node! (too large)");
+  }
+
+  //temporary node
+  Node<T>* toDelete;
+
+  //if pos = 0 delete headptr node and increment headptr by one
+  if (position == 0)
+  {
+    toDelete = headptr;
+    headptr = head->getNext();
+  }
+
+  //else loop through linked list as before
+  else
+  {
+    Node<T>* prev = headptr;
+    
+    for (std::size_t i=0; i < position; i++)
+    {
+      prev = prev->getNext();
+    }
+
+    //set delete node as found node
+    toDelete = prev->getNext();
+    //update pointer
+    prev->setNext(toDelete->getNext());
+  }
+  delete toDelete;
+  length--;
 }
 
 template <typename T>
