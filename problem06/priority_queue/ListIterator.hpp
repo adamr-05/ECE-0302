@@ -25,7 +25,8 @@ class ListIterator : public std::iterator<std::input_iterator_tag, T> {
         bool operator!=(const ListIterator<T>& rhs) const;
     
     private:
-        // TODO
+        List<T>* listPtr;
+        Node<T>* current;
 };
 
 #include "ListIterator.tpp"
