@@ -42,6 +42,18 @@ void SortedList<T, L>::insert(const T& item)
 {
   // TODO
   // Must use range-based for loop syntax!!
+  std::size_t pos = 0;
+
+  for (T listItem : plist)
+  {
+    if (item <= listItem)
+    {
+      plist.insert(pos, item);
+      return;
+    }
+    pos++;
+  }
+  plist.insert(pos, item);
 }
 
 template <typename T, typename L>
@@ -49,6 +61,21 @@ void SortedList<T, L>::remove(const T& item)
 {
   // TODO
   // Must use range-based for loop syntax!!
+
+  std::size_t pos = 0;
+
+  or (T listItem : plist)
+  {
+    if (item == listItem)
+    {
+      plist.remove(pos);
+      return;
+    }
+    pos++;
+  }
+  throw std::invalid_argument("remove item not found")
+
+
 }
 
 template <typename T, typename L>
