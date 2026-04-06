@@ -285,11 +285,47 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 
 template<typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int arr_size) {
+
     // BONUS TODO: check for duplicate items in the input array
+    for (int i=0; i<arr_size; i++)
+    {
+        for (int j=0; j<i; j++)
+        {
+            if (arr[i] == arr[j])
+            {
+                throw std::logic_error("Duplicates found in array!!!11!1!1!");
+            }
+        }
+    }
 
     // BONUS TODO: use the tree to sort the array items
+    for (int i=0; i<arr_size; i++)
+    {
+        insert(arr[i], arr[i]);
+    }
 
     // BONUS TODO: overwrite input array values with sorted values
+    std::stack<Node<KeyType, ItemType>*> s;
+    Node<KeyType, ItemType>* current = root;
+    int i = 0;
+
+    while (current != nullptr || !s.empty())
+    {
+        while (current != nullptr)
+        {
+            s.push(current);
+            current = current->left;
+        }
+    
+
+
+    current = s.top();
+    s.pop();
+    arr[i] = current->key;
+    i++;
+
+    current = current->right;
+    }
 }
 
 
