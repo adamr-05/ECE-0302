@@ -481,3 +481,72 @@ TEST_CASE("XMLParser: Clear resets state for element name queries", "[XMLParser]
 	p.clear();
 	REQUIRE_THROWS_AS(p.containsElementName("a"), std::logic_error);
 }
+
+TEST_CASE("XMLParser: Checkoff example", "[XMLParser]") {
+    XMLParser p;
+    std::string input = "<?xml version=\"1.0\"?><library><book>Title A</book><book>Title B</book><br/></library>";
+
+    // 1. tokenize
+    REQUIRE(p.tokenizeInputString(input));
+
+    // 2. check tokens
+    // tokens are: DECLARATION, START library, START book, CONTENT "Title A",
+    //             END book, START book, CONTENT "Title B", END book,
+    //             EMPTY br, END library
+    std::vector<TokenStruct> output = p.returnTokenizedInput();
+    REQUIRE(output.size() == 10);
+
+    REQUIRE(output[0].tokenType == DECLARATION);
+    REQUIRE(output[0].tokenString == "xml version=\"1.0\"");
+
+    REQUIRE(output[1].tokenType == START_TAG);
+    REQUIRE(output[1].tokenString == "library");
+
+    REQUIRE(output[2].tokenType == START_TAG);
+    REQUIRE(output[2].tokenString == "book");
+
+    REQUIRE(output[3].tokenType == CONTENT);
+    REQUIRE(output[3].tokenString == "Title A");
+
+    REQUIRE(output[4].tokenType == END_TAG);
+    REQUIRE(output[4].tokenString == "book");
+
+    REQUIRE(output[5].tokenType == START_TAG);
+    REQUIRE(output[5].tokenString == "book");
+
+    REQUIRE(output[6].tokenType == CONTENT);
+    REQUIRE(output[6].tokenString == "Title B");
+
+    REQUIRE(output[7].tokenType == END_TAG);
+    REQUIRE(output[7].tokenString == "book");
+
+    REQUIRE(output[8].tokenType == EMPTY_TAG);
+    REQUIRE(output[8].tokenString == "br");
+
+    REQUIRE(output[9].tokenType == END_TAG);
+    REQUIRE(output[9].tokenString == "library");
+
+    // 3. parse
+    REQUIRE(p.parseTokenizedInput());
+
+    // 4. element names (only START_TAG and EMPTY_TAG count)
+    REQUIRE(p.containsElementName("library"));
+    REQUIRE(p.frequencyElementName("library") == 1);
+    REQUIRE(p.containsElementName("book"));
+    REQUIRE(p.frequencyElementName("book") == 2);
+    REQUIRE(p.containsElementName("br"));
+    REQUIRE(p.frequencyElementName("br") == 1);
+    REQUIRE_FALSE(p.containsElementName("xml"));  // declaration doesn't count
+}
+
+
+TEST_CASE("XML Parser", "[XML Parser]")
+{
+	XMLParser p;
+	std::string testInput = "<a>hi</a>";
+
+	REQUIRE(p.tokenizeInputString(testInput));
+
+
+	REQUIRE(p.parseTokenizedInput());
+}
