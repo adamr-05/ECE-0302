@@ -162,20 +162,122 @@ template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 {
     if (isEmpty())
-        return false; // empty tree
+        return false; // empty tree cannot remove
 
-    // TODO
+    //search for item
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    bool found = search(key, curr, curr_parent);
+
+    if (found)
+    {
+        //check if leaf node (no children) (left and right are empty)
+        if (curr->left == nullptr && curr->right == nullptr)
+        {   
+            //leaf node with no parent (root)
+            if (curr_parent == nullptr)
+            {   
+                delete curr;
+                root = nullptr;
+                return true;
+            }
+            //leaf node with parent (further down)
+            else
+            {
+                //check if right or left child
+                if (curr_parent->left == curr)
+                {
+                    curr_parent->left = nullptr;
+                }
+                else
+                {
+                    curr_parent->right = nullptr;
+                }
+                delete curr;
+                return true;
+            }
+        }
+
+        //only right child
+        else if (curr->left == nullptr)
+        {   
+            //no parent (root)
+            if (curr_parent == nullptr)
+            {
+                root = curr->right;
+                delete curr;
+                return true;
+            }
+            //has a parent
+            else
+            {
+                if (curr_parent->right == curr)
+                {
+                    curr_parent->right = curr->right;
+                }
+                else
+                {
+                    curr_parent->left = curr->right;
+                }
+                delete curr;
+                return true;
+            }
+        }
 
 
-    // case one thing in the tree
+        //only left child
+        else if (curr->right == nullptr)
+        {
+            //no parent (root)
+            if (curr_parent == nullptr)
+            {
+                root = curr->left;
+                delete curr;
+                return true;
+            }
+            //has a parent
+            else
+            {
+                if (curr_parent->left == curr)
+                {
+                    curr_parent->left = curr->left;
+                }
+                else
+                {
+                    curr_parent->right = curr->left;
+                }
+                delete curr;
+                return true;
+            }
+        }
 
-    // case, found deleted item at leaf
+        // case, item to delete has two children
+        else
+        {   
+            //get next largest node off curr (scan right subtree)
+            Node<KeyType, ItemType>* inorder;
+            Node<KeyType, ItemType>* inorder_parent;
+            inorder_successor(curr, inorder, inorder_parent);
 
-    // case, item to delete has only a right child
+            //"inorder" should now be node that replaces curr node
+            curr->data = inorder->data;
+            curr->key = inorder->key;
 
-    // case, item to delete has only a left child
-
-    // case, item to delete has two children
+            //delete inorder node now, as its data replaced curr node
+            //if it is a left child set left child to new child
+            if (inorder_parent->left == inorder)
+            {
+                inorder_parent->left = inorder->right;
+            }
+            //if it is a right child set right child to new child
+            else
+            {
+                inorder_parent->right = inorder->right;
+            }
+            delete inorder;
+            return true;
+        }
+    }
 
     return false; 
 }
