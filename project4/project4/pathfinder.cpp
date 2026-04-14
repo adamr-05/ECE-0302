@@ -78,5 +78,24 @@ int main(int argc, char *argv[])
   //enqueue start State to frontier
   frontier.enqueue(State(start_row, start_col));
 
+   if (start_row == 0 || start_row == image.height() - 1 ||
+      start_col == 0 || start_col == image.width() - 1)
+  {
+    image(start_row, start_col) = GREEN;
+    writeToFile(image, output_file);
+    std::cout << "Solution Found" << std::endl;
+    return EXIT_SUCCESS;
+  }
+
+  while (frontier.isEmpty() == false)
+  {
+    State currentState = frontier.peekFront();
+    frontier.dequeue();
+
+    // TODO: check neighbors (up down left right)
+  }
+
+  // TODO: no solution case
+
   
 }
