@@ -92,10 +92,51 @@ int main(int argc, char *argv[])
     State currentState = frontier.peekFront();
     frontier.dequeue();
 
-    // TODO: check neighbors (up down left right)
+    //UP
+    if (currentState.first > 0 &&
+        !visited[currentState.first - 1][currentState.second] &&
+        image(currentState.first - 1, currentState.second) == WHITE)
+    {
+      std::size_t nr = currentState.first - 1;
+      std::size_t nc = currentState.second;
+
+      if (nr == 0 || nr == image.height() - 1 ||
+          nc == 0 || nc == image.width() - 1)
+      {
+        image(nr, nc) = GREEN;
+        writeToFile(image, output_file);
+        std::cout << "Solution Found" << std::endl;
+        return EXIT_SUCCESS;
+      }
+
+      visited[nr][nc] = true;
+      frontier.enqueue(State(nr, nc));
+    }
+
+    //DOWN
+    if (currentState.first < image.height() - 1 &&
+        !visited[currentState.first + 1][currentState.second] &&
+        image(currentState.first + 1, currentState.second) == WHITE)
+    {
+      std::size_t nr = currentState.first + 1;
+      std::size_t nc = currentState.second;
+
+      if (nr == 0 || nr == image.height() - 1 ||
+          nc == 0 || nc == image.width() - 1)
+      {
+        image(nr, nc) = GREEN;
+        writeToFile(image, output_file);
+        std::cout << "Solution Found" << std::endl;
+        return EXIT_SUCCESS;
+      }
+
+      visited[nr][nc] = true;
+      frontier.enqueue(State(nr, nc));
+    }
+
+    // TODO: LEFT and RIGHT neighbors
   }
 
   // TODO: no solution case
-
-  
 }
+
