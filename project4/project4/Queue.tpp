@@ -22,7 +22,6 @@ T Queue<T,L>::peekFront() const
 template <typename T, typename L>
 bool Queue<T,L>::isEmpty() const
 {
-  // TODO
-  return false;
+  return internal_list.isEmpty();
 }
 
