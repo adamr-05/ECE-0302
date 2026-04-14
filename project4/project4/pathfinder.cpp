@@ -2,9 +2,15 @@
 #include <iostream>
 #include <string>
 
+#include <vector>
+#include <utility>
+
 #include "lib/Image.hpp"
 #include "List.hpp"
 #include "Queue.hpp"
+
+//row/colum pair "State" (coordinates)
+typedef std::pair<std::size_t, std::size_t> State;
 
 int main(int argc, char *argv[])
 {
@@ -61,13 +67,16 @@ int main(int argc, char *argv[])
     std::cerr << "Error: Must be only one red start pixel" << std::endl;
     return EXIT_FAILURE;
   }
-    
 
 
+  //queue of positions to check next
+  Queue<State, List<State>> frontier;
+  //grid of image height and width with either true/false in each square (true if visited)
+  std::vector<std::vector<bool>> visited(image.height(), std::vector<bool>(image.width(), false));
+  //starting state is "visited" 
+  visited[start_row][start_col] = true;
+  //enqueue start State to frontier
+  frontier.enqueue(State(start_row, start_col));
 
-
-  // TODO: breadth-first search
-
-  // TODO: Write solution image to file
   
 }
