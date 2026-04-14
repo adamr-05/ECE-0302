@@ -17,8 +17,8 @@ void Queue<T,L>::dequeue()
 template <typename T, typename L>
 T Queue<T,L>::peekFront() const
 {
-  // TODO
-  return T();
+  //return item at front (index position 0)
+  return internal_list.getEntry(0);
 }
 
 template <typename T, typename L>
