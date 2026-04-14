@@ -4,7 +4,7 @@
 
 #include "AbstractList.hpp"
 #include "Node.hpp"
-#include "ListIterator.hpp"
+
 
 
 template <typename T>
@@ -36,9 +36,6 @@ public:
 
   void setEntry(std::size_t position, const T& newValue);
 
-  // iterator methods
-  ListIterator<T> begin();
-  ListIterator<T> end();
 
 private:
 

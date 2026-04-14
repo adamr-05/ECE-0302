@@ -172,15 +172,3 @@ void List<T>::setEntry(std::size_t position, const T& newValue)
   //use setItem to change item at node to newValue
   curr->setItem(newValue);
 }
-
-template <typename T>
-ListIterator<T> List<T>::begin() 
-{
-  return ListIterator<T>(this, headptr);
-}
-
-template <typename T>
-ListIterator<T> List<T>::end() 
-{
-  return ListIterator<T>(this, nullptr);
-}
