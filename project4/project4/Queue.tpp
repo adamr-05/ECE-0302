@@ -3,7 +3,8 @@
 template <typename T, typename L>
 void Queue<T,L>::enqueue(const T& item)
 {
-  // TODO
+  //add to back, index position = length of list
+  internal_list.insert(internal_list.getLength(), item);
 }
 
 template <typename T, typename L>
