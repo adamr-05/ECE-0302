@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pathfinder Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": ["tests/maze00_no_start.png", "my_output04.png"],
+            "cwd": "${workspaceFolder}",
+            "miDebuggerPath": ""
+        }
+    ]
+}
