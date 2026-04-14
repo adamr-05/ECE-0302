@@ -1,8 +1,11 @@
 #ifndef _LIST_HPP_
 #define _LIST_HPP_
 
-#include <cstdlib>
+
 #include "AbstractList.hpp"
+#include "Node.hpp"
+#include "ListIterator.hpp"
+
 
 template <typename T>
 class List: public AbstractList<T>
@@ -33,12 +36,17 @@ public:
 
   void setEntry(std::size_t position, const T& newValue);
 
+  // iterator methods
+  ListIterator<T> begin();
+  ListIterator<T> end();
+
 private:
 
   //TODO
+  Node<T>* headptr;
+  std::size_t length;
   
 };
 
 #include "List.tpp"
-
 #endif
