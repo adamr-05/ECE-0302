@@ -10,7 +10,8 @@ void Queue<T,L>::enqueue(const T& item)
 template <typename T, typename L>
 void Queue<T,L>::dequeue()
 {
-  // TODO
+  //remove item at front (index position 0)
+  internal_list.remove(0);
 }
 
 template <typename T, typename L>
