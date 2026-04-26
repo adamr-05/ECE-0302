@@ -11,7 +11,16 @@ int Graph<LabelType>::getNumVertices() const {
 
 template <typename LabelType> 
 int Graph<LabelType>::getNumEdges() const {
-    return 0;
+    //range based forloop: loop through adjacencyList returning every element 
+    //use const auto& (pass by reference and auto gives types)
+    int size = 0;
+    for (const auto& pair : adjacencyList)
+    {
+        //set (list of neighbors) is second item of map (pair has pairs accessed with .first & .second)
+        size += (pair.second.size());
+    }
+    //each neighbor exists twice -- all neighbors are mutual between nodes
+    return (size / 2);
 }
         
 template <typename LabelType> 
