@@ -67,28 +67,30 @@ void Graph<LabelType>::depthFirstTraversal(LabelType start, void visit(LabelType
     //set of visitedNodes to lookup/track
     std::set<LabelType> visitedNodes;
 
-    //visit first node and add it to visited and queue
-    visit(start);
-    visitedNodes.insert(start);
+    // add first node to stack
     nextNodeStack.push(start);
 
-    //loop while queue is not empty
+    //loop while stack is not empty
     while (nextNodeStack.empty() == false)
     {
-        //read next node in queue and remove
+        //pop next node from stack
         LabelType currentNode = nextNodeStack.top();
         nextNodeStack.pop();
+
+        //skip if already visited (node can be pushed multiple times from different neighbors)
+        if (visitedNodes.count(currentNode)) continue;
+
+        //visit/mark as visited
+        visit(currentNode);
+        visitedNodes.insert(currentNode);
 
         //loop BACKWARDS through currentNode neighbors before pushing, as stack if LIFO, so last element added will be first out
         for (auto it = adjacencyList[currentNode].rbegin(); it != adjacencyList[currentNode].rend(); it++)
         {
-            //check if neighbor is in visited set (skip if so)
-            if (!visitedNodes.count(*it))
+            LabelType n = *it;
+            if (!visitedNodes.count(n))
             {
-                LabelType n = *it;
-                visit(n);
-                visitedNodes.insert(*it);
-                nextNodeStack.push(*it);
+                nextNodeStack.push(n);
             }
         }
     }
