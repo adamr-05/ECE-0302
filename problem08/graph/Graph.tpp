@@ -67,4 +67,36 @@ void Graph<LabelType>::depthFirstTraversal(LabelType start, void visit(LabelType
 template <typename LabelType> 
 void Graph<LabelType>::breadthFirstTraversal(LabelType start, void visit(LabelType&)) {
     // BONUS
+    //FIFO queue for next Node to traverse
+    std::queue<LabelType> nextNodeQueue;
+    //set of visitedNodes to lookup/track
+    std::set<LabelType> visitedNodes;
+
+    //visit first node and add it to visited and queue
+    visit(start);
+    visitedNodes.insert(start);
+    nextNodeQueue.push(start);
+
+    //loop while queue is not empty
+    while (nextNodeQueue.empty() == false)
+    {
+        //read next node in queue and remove
+        LabelType currentNode = nextNodeQueue.front();
+        nextNodeQueue.pop();
+
+        //loop through all neighbors of current node only
+        for (const auto& neighbor : adjacencyList[currentNode])
+        {
+            //check if neighbor is in visited set (skip if so)
+            if (!visitedNodes.count(neighbor))
+            {
+                visit(neighbor);
+                visitedNodes.insert(neighbor);
+                nextNodeQueue.push(neighbor);
+            }
+        }
+    }
+
+    
+
 }
