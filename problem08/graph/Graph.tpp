@@ -5,7 +5,8 @@ Graph<LabelType>::Graph() {}
 
 template <typename LabelType> 
 int Graph<LabelType>::getNumVertices() const {
-    return 0;
+    //return size of MAP, is total number of vertices (nodes)
+    return adjacencyList.size();
 }
 
 template <typename LabelType> 
