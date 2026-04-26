@@ -35,8 +35,18 @@ bool Graph<LabelType>::add(LabelType start, LabelType end) {
 
 template <typename LabelType> 
 bool Graph<LabelType>::remove(LabelType start, LabelType end) {
-    
-    return false;
+    //if edge doesn't exist, return false
+    if (!(adjacencyList.count(start) && adjacencyList[start].count(end))) return false;
+
+    //erase both neighbors, so edge is removed
+    adjacencyList[start].erase(end);
+    adjacencyList[end].erase(start);
+
+    //if either has no neighbors (other edges) -- delete it
+    if (adjacencyList[start].empty()) adjacencyList.erase(start);
+    if (adjacencyList[end].empty()) adjacencyList.erase(end);
+
+    return true;
 }
 
 template <typename LabelType> 
