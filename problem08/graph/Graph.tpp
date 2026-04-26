@@ -85,7 +85,8 @@ void Graph<LabelType>::depthFirstTraversal(LabelType start, void visit(LabelType
             //check if neighbor is in visited set (skip if so)
             if (!visitedNodes.count(*it))
             {
-                visit(*it);
+                LabelType n = *it;
+                visit(n);
                 visitedNodes.insert(*it);
                 nextNodeStack.push(*it);
             }
@@ -119,7 +120,8 @@ void Graph<LabelType>::breadthFirstTraversal(LabelType start, void visit(LabelTy
             //check if neighbor is in visited set (skip if so)
             if (!visitedNodes.count(neighbor))
             {
-                visit(neighbor);
+                LabelType n = neighbor;
+                visit(n);
                 visitedNodes.insert(neighbor);
                 nextNodeQueue.push(neighbor);
             }
