@@ -62,6 +62,35 @@ bool Graph<LabelType>::remove(LabelType start, LabelType end) {
 template <typename LabelType> 
 void Graph<LabelType>::depthFirstTraversal(LabelType start, void visit(LabelType&)) {
     // BONUS
+    //stack for next Node to traverse (keep traversing same path)
+    std::stack<LabelType> nextNodeStack;
+    //set of visitedNodes to lookup/track
+    std::set<LabelType> visitedNodes;
+
+    //visit first node and add it to visited and queue
+    visit(start);
+    visitedNodes.insert(start);
+    nextNodeStack.push(start);
+
+    //loop while queue is not empty
+    while (nextNodeStack.empty() == false)
+    {
+        //read next node in queue and remove
+        LabelType currentNode = nextNodeStack.top();
+        nextNodeStack.pop();
+
+        //loop BACKWARDS through currentNode neighbors before pushing, as stack if LIFO, so last element added will be first out
+        for (auto it = adjacencyList[currentNode].rbegin(); it != adjacencyList[currentNode].rend(); it++)
+        {
+            //check if neighbor is in visited set (skip if so)
+            if (!visitedNodes.count(*it))
+            {
+                visit(*it);
+                visitedNodes.insert(*it);
+                nextNodeStack.push(*it);
+            }
+        }
+    }
 }
 
 template <typename LabelType> 
@@ -96,7 +125,4 @@ void Graph<LabelType>::breadthFirstTraversal(LabelType start, void visit(LabelTy
             }
         }
     }
-
-    
-
 }
