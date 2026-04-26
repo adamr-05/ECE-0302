@@ -2,6 +2,8 @@
 #define _GRAPH_HPP_
 
 #include "AbstractGraph.hpp"
+#include <map>
+#include <set>
 
 template <typename LabelType>
 class Graph: public AbstractGraph<LabelType>
@@ -21,6 +23,11 @@ class Graph: public AbstractGraph<LabelType>
         void depthFirstTraversal(LabelType start, void visit(LabelType&));
 
         void breadthFirstTraversal(LabelType start, void visit(LabelType&));
+    
+    private:
+
+        //map using set
+        std::map<LabelType, std::set<LabelType>> adjacencyList;
   
 };
 
