@@ -4,6 +4,10 @@ template <typename T>
 State<T> FrontierQueue<T>::pop() {
 
   //TODO: implement this the same way we implemented pop in the heap lecture. Compare states using getFCost.
+  State<T> top = queue[0];
+  queue[0] = queue.back();
+  queue.pop_back();
+
   // trickle down
   // implemented same as lecture, flipped comparisions (max heap --> min heap)
   int parent = 0;
@@ -27,6 +31,8 @@ template <typename T>
 void FrontierQueue<T>::push(const T &p, std::size_t cost, std::size_t heur) {
 
   //TODO: implement this the same way we implemented push in the heap lecture.
+  queue.push_back(State<T>(p, cost, heur));
+  
   // bubble up
   // same code as lecture, but comparisons flipped (max heap to min heap)
   int child = queue.size() - 1;
@@ -63,7 +69,29 @@ template <typename T>
 void FrontierQueue<T>::replaceif(const T &p, std::size_t cost) {
 
   //TODO
+  
+  //scan to find the state with matching value p
+  for (std::size_t i = 0; i < queue.size(); i++)
+  {
+    //value found and new cost lower, replace
+    if (queue[i].getValue() == p && cost < queue[i].getPathCost())
+    {
+      // update path cost (also updates f-cost)
+      queue[i].updatePathCost(cost);
+      //lower f-cost, might need to move in heap
+      //bubble up like push method
+      int child = i;
+      int parent = (child - 1) / 2;
 
+      while (child > 0 && queue[child].getFCost() < queue[parent].getFCost())
+      {
+        std::swap(queue[child], queue[parent]);
+        child = parent;
+        parent = (child - 1) / 2;
+      }
+      break; // done, only one match is possible here!
+    }
+  }
 }
 
 
