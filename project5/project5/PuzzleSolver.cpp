@@ -42,7 +42,8 @@ std::pair<bool, std::size_t> PuzzleSolver::search() {
     Puzzle value = node.getValue();
     std::size_t cost = node.getPathCost();
 
-    //TODO: add state to explored 
+    //TODO: add state to explored
+    explored.insert(value);
 
     if (value.heuristic(goal) == 0) {
       found = true;
