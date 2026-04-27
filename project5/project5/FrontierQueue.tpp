@@ -50,9 +50,13 @@ template <typename T>
 bool FrontierQueue<T>::contains(const T &p) const {
 
   //TODO
-
+  //loop through size
+  for (std::size_t i = 0; i < queue.size(); i++)
+  {
+    //check value at every position against p
+    if (queue[i].getValue() == p) return true;
+  }
   return false;
-
 }
 
 template <typename T>
