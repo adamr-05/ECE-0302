@@ -58,7 +58,7 @@ std::pair<bool, std::size_t> PuzzleSolver::search() {
 
       if (ok) {
         //TODO: define in_explored as whether the result has been explored
-        bool in_explored = false;
+        bool in_explored = explored.count(result);
         bool in_frontier = frontier.contains(result);
         if (!(in_explored || in_frontier)) {
           frontier.push(result, cost + 1, result.heuristic(goal));
