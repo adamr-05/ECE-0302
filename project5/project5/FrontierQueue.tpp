@@ -18,9 +18,7 @@ void FrontierQueue<T>::push(const T &p, std::size_t cost, std::size_t heur) {
 template <typename T>
 bool FrontierQueue<T>::empty() const {
 
-  //TODO
-
-  return true;
+  return queue.empty();
 }
 
 template <typename T> 
