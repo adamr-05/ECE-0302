@@ -27,6 +27,7 @@ std::pair<bool, std::size_t> PuzzleSolver::search() {
 
   FrontierQueue<Puzzle> frontier;
   //TODO: instantiate explored
+  std::unordered_set<Puzzle> explored;
 
   frontier.push(initial, 0, initial.heuristic(goal));
 
