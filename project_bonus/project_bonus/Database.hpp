@@ -3,6 +3,8 @@
 
 #include <cstdlib>
 #include <string>
+#include "List.hpp"
+#include "BinarySearchTree.hpp"
 
 template <typename T>
 class Database
@@ -58,9 +60,9 @@ private:
   struct Entry
   {
     std::string key1;
-    std::string key2
+    std::string key2;
     T data;
-  }
+  };
 
   List<Entry> entries;
   BinarySearchTree<std::string, std::size_t> tree1; // index for key1
