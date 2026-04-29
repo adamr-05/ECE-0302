@@ -63,6 +63,7 @@ T Database<T>::getValue(const std::string& key) const {
 
 template <typename T>
 bool Database<T>::contains(const std::string& key) const {
-    // TODO
-    return false;
+    //use findIndex method to return true if index exists at key
+    std::size_t idx;
+    return findIndex(key, idx);
 }
