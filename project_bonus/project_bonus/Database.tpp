@@ -35,8 +35,37 @@ bool Database<T>::add(std::string key1, std::string key2, T item) {
 
 template <typename T>
 bool Database<T>::remove(const std::string& key) {
-    // TODO
-    return false;
+    
+    //Write value of index into p if key found
+    std::size_t p;
+    if (!findIndex(key, p)) return false;
+
+    //get entry key values, then remove them from tree1 & tree2
+    Entry orig = entries.getEntry(p);
+    tree1.remove(orig.key1);
+    tree2.remove(orig.key2);
+
+
+    //instead of shifting every element down
+    //move last item into position p, then remove tail
+    std::size_t last = entries.getLength() - 1;
+    if (p != last)
+    {   
+        //grab final entry
+        Entry tail = entries.getEntry(last);
+        //overwrite p with final entry
+        entries.setEntry(p, tail);
+
+        //new tail index is now "p"
+        //update both trees, remove old mapping of "last", change to "p"
+        tree1.remove(tail.key1);
+        tree1.insert(tail.key1, p);
+        tree2.remove(tail.key2);
+        tree2.insert(tail.key2, p);
+    }
+    //now remove last slot, no pointer to it
+    entries.remove(last);
+    return true;
 }
 
 template <typename T>
@@ -72,6 +101,7 @@ template <typename T>
 inline bool Database<T>::findIndex(const std::string &key, std::size_t &index) const
 {
     //use BST retrieve to check key & index in tree
+    //try tree1, retrieve writes into index if if found, then check tree2, then not found...
     if (tree1.retrieve(key, index)) return true;
     if (tree2.retrieve(key, index)) return true;
     return false;
