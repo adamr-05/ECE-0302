@@ -41,7 +41,10 @@ bool Database<T>::remove(const std::string& key) {
 
 template <typename T>
 void Database<T>::clear() {
-    // TODO
+    //clear entries list and destroy trees that hold key indexes
+    entries.clear();
+    tree1.destroy();
+    tree2.destroy();
 }
 
 template <typename T>
