@@ -11,8 +11,8 @@ bool Database<T>::isEmpty() const {
 
 template <typename T>
 std::size_t Database<T>::getNumberOfEntries() const {
-    // TODO
-    return 0;
+    //use list method getLength
+    return entries.getLength();
 }
 
 template <typename T>
