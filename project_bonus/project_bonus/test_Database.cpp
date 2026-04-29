@@ -123,7 +123,7 @@ TEST_CASE("TestEntry Type", "[entry type]") {
     REQUIRE(testdb.getValue(isbn2) == e2);
     REQUIRE(testdb.getValue(catalog_id2) == e2);
 
-    // removin' e1 by catalog id should kill both o' its keys but leave e2 alone
+    // removing e1 by catalog id should kill both of its keys but leave e2 alone
     REQUIRE(testdb.remove(catalog_id1));
     REQUIRE_FALSE(testdb.contains(isbn1));
     REQUIRE_FALSE(testdb.contains(catalog_id1));
@@ -173,12 +173,12 @@ TEST_CASE("Reject duplicate keys on add", "[add]") {
     REQUIRE_FALSE(db.add("d", "b", "third"));
     // collision on both
     REQUIRE_FALSE(db.add("a", "b", "fourth"));
-    // cross-tree: new key1 collides wit' an existing key2
+    // cross-tree: new key1 collides with an existing key2
     REQUIRE_FALSE(db.add("b", "z", "fifth"));
-    // same string for both keys o' a single entry
+    // same string for both keys of a single entry
     REQUIRE_FALSE(db.add("x", "x", "same"));
 
-    // none o' the failed adds should've changed the size
+    // none of the failed adds should have changed the size
     REQUIRE(db.getNumberOfEntries() == 1);
 }
 
@@ -189,12 +189,12 @@ TEST_CASE("Remove middle entry triggers swap-with-last", "[remove]") {
     db.add("a2", "b2", "second");
     db.add("a3", "b3", "third");
 
-    // removin' th' first-added forces a swap, since 'tisn't the tail
+    // removing the first-added forces a swap, since it isn't the tail
     REQUIRE(db.remove("a1"));
     REQUIRE_FALSE(db.contains("a1"));
     REQUIRE_FALSE(db.contains("b1"));
 
-    // remainin' entries still reachable by both keys
+    // remaining entries still reachable by both keys
     REQUIRE(db.getValue("a2") == "second");
     REQUIRE(db.getValue("b2") == "second");
     REQUIRE(db.getValue("a3") == "third");
@@ -234,13 +234,13 @@ TEST_CASE("Stress: many entries, remove every other one", "[stress]") {
     }
     REQUIRE(db.getNumberOfEntries() == 20);
 
-    // remove evens — exercises swap-with-last repeatedly
+    // remove evens - exercises swap-with-last repeatedly
     for (int i = 0; i < 20; i += 2) {
         REQUIRE(db.remove("A" + std::to_string(i)));
     }
     REQUIRE(db.getNumberOfEntries() == 10);
 
-    // odds should still be intact an' reachable by both keys
+    // odds should still be intact and reachable by both keys
     for (int i = 1; i < 20; i += 2) {
         REQUIRE(db.getValue("A" + std::to_string(i)) == i);
         REQUIRE(db.getValue("B" + std::to_string(i)) == i);
