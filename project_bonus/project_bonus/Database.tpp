@@ -50,8 +50,15 @@ void Database<T>::clear() {
 
 template <typename T>
 T Database<T>::getValue(const std::string& key) const {
-    // TODO
-    return T();
+
+    //idx to track when finding value
+    std::size_t idx;
+
+    //if index not found return empty object
+    if (!findIndex(key, idx)) return T();
+
+    //return data value of entry at index
+    return entries.getEntry(idx).data;
 }
 
 template <typename T>
