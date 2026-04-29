@@ -1,14 +1,12 @@
 #include "Database.hpp"
 
 template <typename T>
-Database<T>::Database() {
-    // TODO
-}
+Database<T>::Database() {}
 
 template <typename T>
 bool Database<T>::isEmpty() const {
-    // TODO
-    return false;
+    //use list method isEmpty
+    return entries.isEmpty();
 }
 
 template <typename T>
