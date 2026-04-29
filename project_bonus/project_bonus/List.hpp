@@ -2,6 +2,7 @@
 #define _LIST_HPP_
 
 #include <cstdlib>
+#include <stdexcept>
 #include "AbstractList.hpp"
 
 template <typename T>
@@ -35,7 +36,19 @@ public:
 
 private:
 
-  //TODO
+  template <typename U>
+  struct Node {
+    U item;
+    Node<U>* next;
+    Node(const U& i, Node<U>* n) : item(i), next(n) {}
+    U getItem() const { return item; }
+    Node<U>* getNext() const { return next; }
+    void setItem(const U& i) { item = i; }
+    void setNext(Node<U>* n) { next = n; }
+  };
+
+  Node<T>* headptr;
+  std::size_t length;
   
 };
 

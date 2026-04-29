@@ -97,7 +97,36 @@ template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::insert(
     const KeyType& key, const ItemType& item)
 {
-    // TODO 
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    bool found = search(key, curr, curr_parent);
+
+    if (!found)
+    {
+        Node<KeyType, ItemType>* temp = new Node<KeyType, ItemType>;
+        temp->key = key;
+        temp->data = item;
+        temp->left = nullptr;
+        temp->right = nullptr;
+
+        if (isEmpty())
+        {
+            root = temp;
+            return true;
+        }
+
+        if (key < curr->key)
+        {
+            curr->left = temp;
+        }
+        else
+        {
+            curr->right = temp;
+        }
+        
+        return true;
+    }
+
     return false;
 }
 
@@ -127,20 +156,104 @@ template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 {
     if (isEmpty())
-        return false; // empty tree
+        return false;
 
-    // TODO
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    bool found = search(key, curr, curr_parent);
 
+    if (found)
+    {
+        if (curr->left == nullptr && curr->right == nullptr)
+        {   
+            if (curr_parent == nullptr)
+            {   
+                delete curr;
+                root = nullptr;
+                return true;
+            }
+            else
+            {
+                if (curr_parent->left == curr)
+                {
+                    curr_parent->left = nullptr;
+                }
+                else
+                {
+                    curr_parent->right = nullptr;
+                }
+                delete curr;
+                return true;
+            }
+        }
 
-    // case one thing in the tree
+        else if (curr->left == nullptr)
+        {   
+            if (curr_parent == nullptr)
+            {
+                root = curr->right;
+                delete curr;
+                return true;
+            }
+            else
+            {
+                if (curr_parent->right == curr)
+                {
+                    curr_parent->right = curr->right;
+                }
+                else
+                {
+                    curr_parent->left = curr->right;
+                }
+                delete curr;
+                return true;
+            }
+        }
 
-    // case, found deleted item at leaf
+        else if (curr->right == nullptr)
+        {
+            if (curr_parent == nullptr)
+            {
+                root = curr->left;
+                delete curr;
+                return true;
+            }
+            else
+            {
+                if (curr_parent->left == curr)
+                {
+                    curr_parent->left = curr->left;
+                }
+                else
+                {
+                    curr_parent->right = curr->left;
+                }
+                delete curr;
+                return true;
+            }
+        }
 
-    // case, item to delete has only a right child
+        else
+        {   
+            Node<KeyType, ItemType>* inorder;
+            Node<KeyType, ItemType>* inorder_parent;
+            inorder_successor(curr, inorder, inorder_parent);
 
-    // case, item to delete has only a left child
+            curr->data = inorder->data;
+            curr->key = inorder->key;
 
-    // case, item to delete has two children
+            if (inorder_parent->left == inorder)
+            {
+                inorder_parent->left = inorder->right;
+            }
+            else
+            {
+                inorder_parent->right = inorder->right;
+            }
+            delete inorder;
+            return true;
+        }
+    }
 
     return false; 
 }
@@ -148,11 +261,42 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 
 template<typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int arr_size) {
-    // BONUS TODO: check for duplicate items in the input array
 
-    // BONUS TODO: use the tree to sort the array items
+    for (int i=0; i<arr_size; i++)
+    {
+        for (int j=0; j<i; j++)
+        {
+            if (arr[i] == arr[j])
+            {
+                throw std::logic_error("Duplicates found in array!!!11!1!1!");
+            }
+        }
+    }
 
-    // BONUS TODO: overwrite input array values with sorted values
+    for (int i=0; i<arr_size; i++)
+    {
+        insert(arr[i], arr[i]);
+    }
+
+    std::stack<Node<KeyType, ItemType>*> s;
+    Node<KeyType, ItemType>* current = root;
+    int i = 0;
+
+    while (current != nullptr || !s.empty())
+    {
+        while (current != nullptr)
+        {
+            s.push(current);
+            current = current->left;
+        }
+
+        current = s.top();
+        s.pop();
+        arr[i] = current->key;
+        i++;
+
+        current = current->right;
+    }
 }
 
 
@@ -166,14 +310,11 @@ void BinarySearchTree<KeyType, ItemType>::inorder_successor(Node<KeyType, ItemTy
         inorder_parent = inorder;
         inorder = inorder->left;
     }
-    
-    // inorder points to the inorder successor at the end of this loop
-
 }
 
 template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::search(KeyType key,
-    Node<KeyType, ItemType>*& curr, 
+    Node<KeyType, ItemType>*& curr,
     Node<KeyType, ItemType>*& curr_parent) const
 {
     curr = root;
@@ -184,28 +325,22 @@ bool BinarySearchTree<KeyType, ItemType>::search(KeyType key,
     
     while (true) {
         if (key == curr->key) {
-            // found
             return true;
         } 
         if (key < curr->key) {
-            // search left
             if (curr->left != nullptr) {
                 curr_parent = curr;
                 curr = curr->left;
             } else {
-                // nowhere further to search
                 return false;
             }
         } else {
-            // search right
             if (curr->right != nullptr) {
                 curr_parent = curr;
                 curr = curr->right;
             } else {
-                // nowhere further to search
                 return false;
             }
         }
     }
 }
-
