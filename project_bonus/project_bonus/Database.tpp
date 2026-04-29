@@ -67,3 +67,12 @@ bool Database<T>::contains(const std::string& key) const {
     std::size_t idx;
     return findIndex(key, idx);
 }
+
+template <typename T>
+inline bool Database<T>::findIndex(const std::string &key, std::size_t &index) const
+{
+    //use BST retrieve to check key & index in tree
+    if (tree1.retrieve(key, index)) return true;
+    if (tree2.retrieve(key, index)) return true;
+    return false;
+}
