@@ -1,0 +1,124 @@
+#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_COLOUR_NONE
+#include "catch.hpp"
+
+#include "Database.hpp"
+
+
+// struct used just for testing
+struct TestEntry {
+    std::string title;
+    std::string author;
+    int pubYear;
+};
+// TestEntry operators
+bool operator==(const TestEntry& e1, const TestEntry& e2) {
+    return (e1.title == e2.title) && (e1.author == e2.author) && (e1.pubYear == e2.pubYear);
+};
+std::ostream& operator<<(std::ostream& os, const TestEntry& t)
+{
+    os << "Title: " << t.title << ", Author: " << t.author << ", Year: " << t.pubYear;
+    return os;
+}
+
+
+/* Provided test cases */
+TEST_CASE("Test Add and Contains", "[add]") {
+    Database<std::string> testdb;
+    std::string e1 = "entry";
+
+    REQUIRE(testdb.isEmpty());
+    REQUIRE(testdb.add("key1", "key2", e1));
+    REQUIRE_FALSE(testdb.isEmpty());
+    REQUIRE(testdb.contains("key1"));
+    REQUIRE(testdb.contains("key2"));
+}
+
+
+TEST_CASE("Test getValue", "[retrieve]") {
+    Database<std::string> testdb;
+    std::string e1 = "entry";
+
+    testdb.add("key1", "key2", e1);
+    
+    REQUIRE(testdb.getValue("key1") == e1);
+    REQUIRE(testdb.getValue("key2") == e1);
+}
+
+
+TEST_CASE("Test Remove", "[remove]") {
+    Database<std::string> testdb;
+    std::string e1 = "entry";
+
+    testdb.add("key1", "key2", e1);
+    
+    testdb.remove("key1");
+    REQUIRE(!testdb.contains("key1"));
+    REQUIRE(!testdb.contains("key2"));
+
+    testdb.add("key1", "key2", e1);
+    
+    testdb.remove("key2");
+    REQUIRE(!testdb.contains("key1"));
+    REQUIRE(!testdb.contains("key2"));
+
+    REQUIRE(testdb.isEmpty());
+}
+
+
+TEST_CASE("Test Copy", "[copy]") {
+    Database<std::string> testdb;
+    std::string e1 = "entry";
+
+    testdb.add("key1", "key2", e1);
+
+    Database<std::string> testdb_copy(testdb);
+
+    testdb.clear();
+
+    REQUIRE(testdb_copy.getValue("key1") == e1);
+    REQUIRE(testdb_copy.getValue("key2") == e1); 
+    
+    Database<std::string> testdb2;
+
+    testdb2.add("key1", "key2", e1);
+
+    Database<std::string> testdb2_copy;
+
+    testdb2_copy = testdb2;
+
+    testdb2.clear();
+
+    REQUIRE(testdb2_copy.getValue("key1") == e1);
+    REQUIRE(testdb2_copy.getValue("key2") == e1); 
+}
+
+
+TEST_CASE("TestEntry Type", "[entry type]") {
+    Database<TestEntry> testdb;
+
+    TestEntry e1;
+    std::string isbn1 = "000-0-00-000000-1";
+    std::string catalog_id1 = "0000001";
+    e1.title = "The Winds of Winter";
+    e1.author = "George R. R. Martin";
+    e1.pubYear = 2051;
+
+    testdb.add(isbn1, catalog_id1, e1);
+
+    TestEntry e2;
+
+    std::string isbn2 = "000-0-00-000000-2";
+    std::string catalog_id2 = "0000002";
+    e2.title = "A Dream of Spring";
+    e2.author = "George R. R. Martin";
+    e2.pubYear = 2052;
+
+    testdb.add(isbn2, catalog_id2, e2);
+
+    // TODO
+    
+}
+
+
+/* Your test cases here */
