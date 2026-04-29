@@ -17,8 +17,20 @@ std::size_t Database<T>::getNumberOfEntries() const {
 
 template <typename T>
 bool Database<T>::add(std::string key1, std::string key2, T item) {
-    // TODO
-    return false;
+    //keys cannot be same, no duplicates
+    if (key1 == key2) return false;
+    if (contains(key1) || contains(key2)) return false;
+
+    //Use struct of key1,key2, item
+    Entry e{key1, key2, item};
+    std::size_t pos = entries.getLength();
+
+    //insert entry struct into entries list
+    entries.insert(pos,e);
+    //also insert into trees to track indexes of key1 & key2
+    tree1.insert(key1, pos);
+    tree2.insert(key2, pos);
+    return true;
 }
 
 template <typename T>
